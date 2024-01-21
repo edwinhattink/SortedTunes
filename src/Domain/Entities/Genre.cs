@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
+﻿namespace SortedTunes.Domain.Entities;
 
-namespace Music.Domain.Entities;
-
-public class Genre: BaseAuditableEntity
+public class Genre : BaseAuditableEntity
 {
-	public required string Name { get; set; }
+    public required string Name { get; set; }
 
-	public int? ParentGenreId { get; set; }
-	public Genre? ParentGenre { get; set; }
+    public int? ParentGenreId { get; set; }
+    public Genre? ParentGenre { get; set; }
 
-	public List<Track> Tracks { get; set; } = new List<Track>();
+    public List<Track> Tracks { get; set; } = new List<Track>();
 
-	public List<Genre> Genres { get; set; } = new List<Genre>();
+    public List<Genre> Genres { get; set; } = new List<Genre>();
 
 }

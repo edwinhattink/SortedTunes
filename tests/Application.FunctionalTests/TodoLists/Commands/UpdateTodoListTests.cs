@@ -1,70 +1,70 @@
-﻿using SortedTunes.Application.Common.Exceptions;
-using SortedTunes.Application.TodoLists.Commands.CreateTodoList;
-using SortedTunes.Application.TodoLists.Commands.UpdateTodoList;
+﻿using SortedTunes.Application.Artists.Commands.CreateArtist;
+using SortedTunes.Application.Artists.Commands.UpdateArtist;
+using SortedTunes.Application.Common.Exceptions;
 using SortedTunes.Domain.Entities;
 
-namespace SortedTunes.Application.FunctionalTests.TodoLists.Commands;
+namespace SortedTunes.Application.FunctionalTests.Artists.Commands;
 
 using static Testing;
 
-public class UpdateTodoListTests : BaseTestFixture
+public class UpdateArtistTests : BaseTestFixture
 {
     [Test]
-    public async Task ShouldRequireValidTodoListId()
+    public async Task ShouldRequireValidArtistId()
     {
-        var command = new UpdateTodoListCommand { Id = 99, Title = "New Title" };
+        var command = new UpdateArtistCommand { Id = 99, Name = "New Name" };
         await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     [Test]
-    public async Task ShouldRequireUniqueTitle()
+    public async Task ShouldRequireUniqueName()
     {
-        var listId = await SendAsync(new CreateTodoListCommand
+        var artistId = await SendAsync(new CreateArtistCommand
         {
-            Title = "New List"
+            Name = "New Artist"
         });
 
-        await SendAsync(new CreateTodoListCommand
+        await SendAsync(new CreateArtistCommand
         {
-            Title = "Other List"
+            Name = "Other Artist"
         });
 
-        var command = new UpdateTodoListCommand
+        var command = new UpdateArtistCommand
         {
-            Id = listId,
-            Title = "Other List"
+            Id = artistId,
+            Name = "Other Artist"
         };
 
         (await FluentActions.Invoking(() =>
             SendAsync(command))
-                .Should().ThrowAsync<ValidationException>().Where(ex => ex.Errors.ContainsKey("Title")))
-                .And.Errors["Title"].Should().Contain("'Title' must be unique.");
+                .Should().ThrowAsync<ValidationException>().Where(ex => ex.Errors.ContainsKey("Name")))
+                .And.Errors["Name"].Should().Contain("'Name' must be unique.");
     }
 
     [Test]
-    public async Task ShouldUpdateTodoList()
+    public async Task ShouldUpdateArtist()
     {
         var userId = await RunAsDefaultUserAsync();
 
-        var listId = await SendAsync(new CreateTodoListCommand
+        var artistId = await SendAsync(new CreateArtistCommand
         {
-            Title = "New List"
+            Name = "New Artist"
         });
 
-        var command = new UpdateTodoListCommand
+        var command = new UpdateArtistCommand
         {
-            Id = listId,
-            Title = "Updated List Title"
+            Id = artistId,
+            Name = "Updated Artist Name"
         };
 
         await SendAsync(command);
 
-        var list = await FindAsync<TodoList>(listId);
+        var artist = await FindAsync<Artist>(artistId);
 
-        list.Should().NotBeNull();
-        list!.Title.Should().Be(command.Title);
-        list.LastModifiedBy.Should().NotBeNull();
-        list.LastModifiedBy.Should().Be(userId);
-        list.LastModified.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
+        artist.Should().NotBeNull();
+        artist!.Name.Should().Be(command.Name);
+        artist.LastModifiedBy.Should().NotBeNull();
+        artist.LastModifiedBy.Should().Be(userId);
+        artist.LastModified.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }

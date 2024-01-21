@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿namespace SortedTunes.Domain.Entities;
 
-namespace Music.Domain.Entities;
-
-public class Artist: BaseAuditableEntity
+public class Artist : BaseAuditableEntity
 {
-	public required string Name { get; set; }
+    public required string Name { get; set; }
 
-	public List<Contribution> Contributions { get; set; } = new List<Contribution>();
+    public List<Contribution> Contributions { get; set; } = new List<Contribution>();
 
-	public List<DiscContribution> DiscContributions { get; set; } = new List<DiscContribution>();
+    public List<DiscContribution> DiscContributions { get; set; } = new List<DiscContribution>();
 }

@@ -1,11 +1,11 @@
-﻿namespace Music.Domain.Entities;
+﻿namespace SortedTunes.Domain.Entities;
 
-public class DiscContribution: BaseAuditableEntity
+public class DiscContribution : BaseAuditableEntity
 {
 
-    public required int DiscId { get; set; }
+    public int? DiscId { get; set; }
     public Disc? Disc { get; set; }
 
-    public required int ArtistId { get; set; }
+    public int? ArtistId { get; set; }
     public Artist? Artist { get; set; }
 }

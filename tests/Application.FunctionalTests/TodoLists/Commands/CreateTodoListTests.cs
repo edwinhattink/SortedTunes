@@ -1,31 +1,31 @@
-﻿using SortedTunes.Application.Common.Exceptions;
-using SortedTunes.Application.TodoLists.Commands.CreateTodoList;
+﻿using SortedTunes.Application.Artists.Commands.CreateArtist;
+using SortedTunes.Application.Common.Exceptions;
 using SortedTunes.Domain.Entities;
 
-namespace SortedTunes.Application.FunctionalTests.TodoLists.Commands;
+namespace SortedTunes.Application.FunctionalTests.Artists.Commands;
 
 using static Testing;
 
-public class CreateTodoListTests : BaseTestFixture
+public class CreateArtistTests : BaseTestFixture
 {
     [Test]
     public async Task ShouldRequireMinimumFields()
     {
-        var command = new CreateTodoListCommand();
+        var command = new CreateArtistCommand() { Name = "" };
         await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<ValidationException>();
     }
 
     [Test]
-    public async Task ShouldRequireUniqueTitle()
+    public async Task ShouldRequireUniqueName()
     {
-        await SendAsync(new CreateTodoListCommand
+        await SendAsync(new CreateArtistCommand
         {
-            Title = "Shopping"
+            Name = "The Beatles"
         });
 
-        var command = new CreateTodoListCommand
+        var command = new CreateArtistCommand
         {
-            Title = "Shopping"
+            Name = "The Beatles"
         };
 
         await FluentActions.Invoking(() =>
@@ -33,22 +33,22 @@ public class CreateTodoListTests : BaseTestFixture
     }
 
     [Test]
-    public async Task ShouldCreateTodoList()
+    public async Task ShouldCreateArtist()
     {
         var userId = await RunAsDefaultUserAsync();
 
-        var command = new CreateTodoListCommand
+        var command = new CreateArtistCommand
         {
-            Title = "Tasks"
+            Name = "Led Zeppelin"
         };
 
         var id = await SendAsync(command);
 
-        var list = await FindAsync<TodoList>(id);
+        var artist = await FindAsync<Artist>(id);
 
-        list.Should().NotBeNull();
-        list!.Title.Should().Be(command.Title);
-        list.CreatedBy.Should().Be(userId);
-        list.Created.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
+        artist.Should().NotBeNull();
+        artist!.Name.Should().Be(command.Name);
+        artist.CreatedBy.Should().Be(userId);
+        artist.Created.Should().BeCloseTo(DateTime.Now, TimeSpan.FromMilliseconds(10000));
     }
 }

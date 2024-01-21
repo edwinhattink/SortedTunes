@@ -1,12 +1,10 @@
 ﻿using System.Reflection;
 using System.Runtime.Serialization;
 using AutoMapper;
-using SortedTunes.Application.Common.Interfaces;
-using SortedTunes.Application.Common.Models;
-using SortedTunes.Application.TodoItems.Queries.GetTodoItemsWithPagination;
-using SortedTunes.Application.TodoLists.Queries.GetTodos;
-using SortedTunes.Domain.Entities;
 using NUnit.Framework;
+using SortedTunes.Application.Artists.Queries.GetArtists;
+using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Domain.Entities;
 
 namespace SortedTunes.Application.UnitTests.Common.Mappings;
 
@@ -17,7 +15,7 @@ public class MappingTests
 
     public MappingTests()
     {
-        _configuration = new MapperConfiguration(config => 
+        _configuration = new MapperConfiguration(config =>
             config.AddMaps(Assembly.GetAssembly(typeof(IApplicationDbContext))));
 
         _mapper = _configuration.CreateMapper();
@@ -30,16 +28,15 @@ public class MappingTests
     }
 
     [Test]
-    [TestCase(typeof(TodoList), typeof(TodoListDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemDto))]
-    [TestCase(typeof(TodoList), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(LookupDto))]
-    [TestCase(typeof(TodoItem), typeof(TodoItemBriefDto))]
+    [TestCase(typeof(Artist), typeof(ArtistDto))]
     public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
     {
         var instance = GetInstanceOf(source);
 
-        _mapper.Map(instance, source, destination);
+        Assert.DoesNotThrow(() =>
+        {
+            _mapper.Map(instance, source, destination);
+        });
     }
 
     private object GetInstanceOf(Type type)
@@ -48,7 +45,6 @@ public class MappingTests
             return Activator.CreateInstance(type)!;
 
         // Type without parameterless constructor
-        // TODO: Figure out an alternative approach to the now obsolete `FormatterServices.GetUninitializedObject` method.
 #pragma warning disable SYSLIB0050 // Type or member is obsolete
         return FormatterServices.GetUninitializedObject(type);
 #pragma warning restore SYSLIB0050 // Type or member is obsolete

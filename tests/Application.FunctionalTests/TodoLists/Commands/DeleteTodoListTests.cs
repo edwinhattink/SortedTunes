@@ -1,32 +1,32 @@
-﻿using SortedTunes.Application.TodoLists.Commands.CreateTodoList;
-using SortedTunes.Application.TodoLists.Commands.DeleteTodoList;
+﻿using SortedTunes.Application.Artists.Commands.CreateArtist;
+using SortedTunes.Application.Artists.Commands.DeleteArtist;
 using SortedTunes.Domain.Entities;
 
-namespace SortedTunes.Application.FunctionalTests.TodoLists.Commands;
+namespace SortedTunes.Application.FunctionalTests.Artists.Commands;
 
 using static Testing;
 
-public class DeleteTodoListTests : BaseTestFixture
+public class DeleteArtistTests : BaseTestFixture
 {
     [Test]
-    public async Task ShouldRequireValidTodoListId()
+    public async Task ShouldRequireValidArtistId()
     {
-        var command = new DeleteTodoListCommand(99);
+        var command = new DeleteArtistCommand(99);
         await FluentActions.Invoking(() => SendAsync(command)).Should().ThrowAsync<NotFoundException>();
     }
 
     [Test]
-    public async Task ShouldDeleteTodoList()
+    public async Task ShouldDeleteArtist()
     {
-        var listId = await SendAsync(new CreateTodoListCommand
+        var artistId = await SendAsync(new CreateArtistCommand
         {
-            Title = "New List"
+            Name = "New Artist"
         });
 
-        await SendAsync(new DeleteTodoListCommand(listId));
+        await SendAsync(new DeleteArtistCommand(artistId));
 
-        var list = await FindAsync<TodoList>(listId);
+        var artist = await FindAsync<Artist>(artistId);
 
-        list.Should().BeNull();
+        artist.Should().BeNull();
     }
 }

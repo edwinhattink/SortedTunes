@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
+﻿namespace SortedTunes.Domain.Entities;
 
-namespace Music.Domain.Entities;
-
-public class Album: BaseAuditableEntity
+public class Album : BaseAuditableEntity
 {
-	public required string Name { get; set; }
+    public required string Title { get; set; }
 
-	public int ReleaseYear { get; set; }
-	public string? Image { get; set; }
+    public int ReleaseYear { get; set; }
+    public string? Image { get; set; }
 
-	public List<Disc> Discs { get; set; } = new List<Disc>();
+    public List<Disc> Discs { get; set; } = new List<Disc>();
 }

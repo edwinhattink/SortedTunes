@@ -1,4 +1,4 @@
-﻿namespace Music.Domain.Enums;
+﻿namespace SortedTunes.Domain.Enums;
 
 public enum ContributionType
 {
