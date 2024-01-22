@@ -10,15 +10,5 @@ public class ContributionConfiguration : IEntityTypeConfiguration<Contribution>
     {
         builder.Property(c => c.ContributionType)
             .IsRequired();
-
-        builder.HasOne(c => c.Artist)
-            .WithMany()
-            .HasForeignKey(c => c.ArtistId)
-            .IsRequired();
-
-        builder.HasOne(c => c.Track)
-            .WithMany()
-            .HasForeignKey(c => c.TrackId)
-            .IsRequired();
     }
 }

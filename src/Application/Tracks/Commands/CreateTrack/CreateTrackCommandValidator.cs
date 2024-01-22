@@ -27,34 +27,22 @@ public class CreateTrackCommandValidator : AbstractValidator<CreateTrackCommand>
 
         RuleFor(v => v.DiscId)
             .MustAsync(ExistDisc)
-            .When(v => v.DiscId.HasValue)
             .WithMessage("Disc with Id '{PropertyValue}' does not exist.")
             .WithErrorCode("Exists");
 
         RuleFor(v => v.GenreId)
             .MustAsync(ExistGenre)
-            .When(v => v.GenreId.HasValue)
             .WithMessage("Genre with Id '{PropertyValue}' does not exist.")
             .WithErrorCode("Exists");
     }
 
-    private async Task<bool> ExistDisc(int? discId, CancellationToken cancellationToken)
+    private async Task<bool> ExistDisc(int discId, CancellationToken cancellationToken)
     {
-        if (!discId.HasValue)
-        {
-            return true; // Skip validation if DiscId is null.
-        }
-
-        return await _context.Discs.AnyAsync(d => d.Id == discId.Value, cancellationToken);
+        return await _context.Discs.AnyAsync(d => d.Id == discId, cancellationToken);
     }
 
-    private async Task<bool> ExistGenre(int? genreId, CancellationToken cancellationToken)
+    private async Task<bool> ExistGenre(int genreId, CancellationToken cancellationToken)
     {
-        if (!genreId.HasValue)
-        {
-            return true; // Skip validation if GenreId is null.
-        }
-
-        return await _context.Genres.AnyAsync(g => g.Id == genreId.Value, cancellationToken);
+        return await _context.Genres.AnyAsync(g => g.Id == genreId, cancellationToken);
     }
 }

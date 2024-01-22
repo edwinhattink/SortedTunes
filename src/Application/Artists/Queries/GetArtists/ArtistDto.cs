@@ -1,9 +1,9 @@
-﻿namespace SortedTunes.Application.Artists.Queries.GetArtists;
+﻿using SortedTunes.Domain.Entities;
 
-public class ArtistDto
+namespace SortedTunes.Application.Artists.Queries.GetArtists;
+
+public class ArtistDto : IMapFrom<Artist>
 {
-
     public int Id { get; init; }
-
     public required string Name { get; init; }
 }

@@ -1,9 +1,8 @@
-﻿using System.Reflection;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using AutoMapper;
 using NUnit.Framework;
 using SortedTunes.Application.Artists.Queries.GetArtists;
-using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Common.Mappings;
 using SortedTunes.Domain.Entities;
 
 namespace SortedTunes.Application.UnitTests.Common.Mappings;
@@ -16,7 +15,9 @@ public class MappingTests
     public MappingTests()
     {
         _configuration = new MapperConfiguration(config =>
-            config.AddMaps(Assembly.GetAssembly(typeof(IApplicationDbContext))));
+        {
+            config.AddProfile<MappingProfile>();
+        });
 
         _mapper = _configuration.CreateMapper();
     }
@@ -33,6 +34,7 @@ public class MappingTests
     {
         var instance = GetInstanceOf(source);
 
+        _mapper.Map(instance, source, destination);
         Assert.DoesNotThrow(() =>
         {
             _mapper.Map(instance, source, destination);

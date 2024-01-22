@@ -14,15 +14,5 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
 
         builder.Property(t => t.FileName)
             .HasMaxLength(200);
-
-        builder.HasOne(t => t.Disc)
-           .WithMany()
-           .HasForeignKey(t => t.DiscId)
-           .IsRequired();
-
-        builder.HasOne(t => t.Genre)
-            .WithMany()
-            .HasForeignKey(t => t.GenreId)
-            .IsRequired();
     }
 }

@@ -8,8 +8,8 @@ public record CreateTrackCommand : IRequest<int>
     public int? Number { get; init; }
     public required string Title { get; init; }
     public string? FileName { get; set; }
-    public int? DiscId { get; set; }
-    public int? GenreId { get; set; }
+    public required int DiscId { get; set; }
+    public required int GenreId { get; set; }
 }
 
 public class CreateTrackCommandHandler : IRequestHandler<CreateTrackCommand, int>
