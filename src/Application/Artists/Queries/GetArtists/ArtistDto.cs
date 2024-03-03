@@ -1,4 +1,5 @@
-﻿using SortedTunes.Domain.Entities;
+﻿using SortedTunes.Application.Common.Mappings;
+using SortedTunes.Domain.Entities;
 
 namespace SortedTunes.Application.Artists.Queries.GetArtists;
 

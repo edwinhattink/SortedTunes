@@ -38,7 +38,7 @@ public class RequestLoggerTests
     {
         var requestLogger = new LoggingBehaviour<CreateArtistCommand>(_logger.Object, _user.Object, _identityService.Object);
 
-        await requestLogger.Process(new CreateArtistCommand { Name = "title" }, new CancellationToken());
+        await requestLogger.Process(new CreateArtistCommand { Name = "name" }, new CancellationToken());
 
         _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Never);
     }

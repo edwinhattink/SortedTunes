@@ -1,8 +1,9 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using AutoMapper;
 using NUnit.Framework;
 using SortedTunes.Application.Artists.Queries.GetArtists;
-using SortedTunes.Application.Common.Mappings;
+using SortedTunes.Application.Common.Interfaces;
 using SortedTunes.Domain.Entities;
 
 namespace SortedTunes.Application.UnitTests.Common.Mappings;
@@ -15,9 +16,7 @@ public class MappingTests
     public MappingTests()
     {
         _configuration = new MapperConfiguration(config =>
-        {
-            config.AddProfile<MappingProfile>();
-        });
+            config.AddMaps(Assembly.GetAssembly(typeof(IApplicationDbContext))));
 
         _mapper = _configuration.CreateMapper();
     }
@@ -47,8 +46,6 @@ public class MappingTests
             return Activator.CreateInstance(type)!;
 
         // Type without parameterless constructor
-#pragma warning disable SYSLIB0050 // Type or member is obsolete
-        return FormatterServices.GetUninitializedObject(type);
-#pragma warning restore SYSLIB0050 // Type or member is obsolete
+        return RuntimeHelpers.GetUninitializedObject(type);
     }
 }
