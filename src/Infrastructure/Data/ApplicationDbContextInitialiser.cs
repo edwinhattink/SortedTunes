@@ -83,7 +83,7 @@ public class ApplicationDbContextInitialiser
             await _userManager.CreateAsync(administrator, "Administrator1!");
             if (!string.IsNullOrWhiteSpace(administratorRole.Name))
             {
-                await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
+                await _userManager.AddToRolesAsync(administrator, [administratorRole.Name]);
             }
         }
 
@@ -92,7 +92,6 @@ public class ApplicationDbContextInitialiser
         {
             return; // DB has been seeded
         }
-
         var theFirstDose = new Album { Title = "The First Dose", ReleaseYear = 2020 };
         _context.AddRange(theFirstDose);
         await _context.SaveChangesAsync();
@@ -100,11 +99,11 @@ public class ApplicationDbContextInitialiser
         var rebelion = new Artist { Name = "Rebelion" };
         var artists = new Artist[]
         {
-                rebelion,
-                new Artist{Name="Radical Redemption"},
+            rebelion,
+            new() {Name="Radical Redemption"},
         };
-        _context.AddRange(artists);
 
+        _context.AddRange(artists);
         var hardstyle = new Genre { Name = "Hardstyle" };
         var rawHardstyle = new Genre { Name = "Raw Hardstyle", ParentGenre = hardstyle };
         var euphoricHardstyle = new Genre { Name = "Euphoric Hardstyle", ParentGenre = hardstyle };
@@ -131,6 +130,5 @@ public class ApplicationDbContextInitialiser
         _context.Contributions.Add(new Contribution { ContributionType = ContributionType.Main, Artist = rebelion, Track = tracks[2] });
         _context.Contributions.Add(new Contribution { ContributionType = ContributionType.Main, Artist = rebelion, Track = tracks[3] });
         await _context.SaveChangesAsync();
-
     }
 }
