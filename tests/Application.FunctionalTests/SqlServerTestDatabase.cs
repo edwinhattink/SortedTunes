@@ -1,15 +1,15 @@
 ﻿using System.Data.Common;
+using SortedTunes.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Respawn;
-using SortedTunes.Infrastructure.Data;
 
 namespace SortedTunes.Application.FunctionalTests;
 
 public class SqlServerTestDatabase : ITestDatabase
 {
-    private readonly string _connectionString;
+    private readonly string _connectionString = null!;
     private SqlConnection _connection = null!;
     private Respawner _respawner = null!;
 
