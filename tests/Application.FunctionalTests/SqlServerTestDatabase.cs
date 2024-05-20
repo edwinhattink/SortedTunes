@@ -1,15 +1,15 @@
 ﻿using System.Data.Common;
-using SortedTunes.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Respawn;
+using SortedTunes.Infrastructure.Data;
 
 namespace SortedTunes.Application.FunctionalTests;
 
 public class SqlServerTestDatabase : ITestDatabase
 {
-    private readonly string _connectionString = null!;
+    private readonly string _connectionString;
     private SqlConnection _connection = null!;
     private Respawner _respawner = null!;
 
@@ -41,7 +41,7 @@ public class SqlServerTestDatabase : ITestDatabase
 
         _respawner = await Respawner.CreateAsync(_connectionString, new RespawnerOptions
         {
-            TablesToIgnore = new Respawn.Graph.Table[] { "__EFMigrationsHistory" }
+            TablesToIgnore = ["__EFMigrationsHistory"]
         });
     }
 
