@@ -1,10 +1,10 @@
-﻿using SortedTunes.Domain.Constants;
-using SortedTunes.Infrastructure.Data;
-using SortedTunes.Infrastructure.Identity;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SortedTunes.Domain.Constants;
+using SortedTunes.Infrastructure.Data;
+using SortedTunes.Infrastructure.Identity;
 
 namespace SortedTunes.Application.FunctionalTests;
 
@@ -99,7 +99,7 @@ public partial class Testing
         {
             await _database.ResetAsync();
         }
-        catch (Exception) 
+        catch (Exception)
         {
         }
 
@@ -126,6 +126,23 @@ public partial class Testing
         context.Add(entity);
 
         await context.SaveChangesAsync();
+    }
+
+    public static async Task<List<TEntity>> AddRangeAsync<TEntity>(List<TEntity> entities)
+        where TEntity : class
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        foreach (var entity in entities)
+        {
+            context.Add(entity);
+        }
+
+        await context.SaveChangesAsync();
+
+        return entities;
     }
 
     public static async Task<int> CountAsync<TEntity>() where TEntity : class

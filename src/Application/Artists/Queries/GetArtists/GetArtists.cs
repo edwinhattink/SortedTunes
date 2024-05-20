@@ -1,11 +1,10 @@
 ﻿using SortedTunes.Application.Common.Interfaces;
 using SortedTunes.Application.Common.Mappings;
 using SortedTunes.Application.Common.Models;
-using SortedTunes.Application.Common.Security;
 
 namespace SortedTunes.Application.Artists.Queries.GetArtists;
 
-[Authorize]
+//[Authorize]
 public record GetArtistsQuery : IRequest<PaginatedList<ArtistDto>>
 {
     public int PageNumber { get; init; } = 1;
