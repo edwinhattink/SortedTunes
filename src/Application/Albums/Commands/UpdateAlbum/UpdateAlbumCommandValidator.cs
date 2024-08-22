@@ -1,12 +1,12 @@
 ﻿using SortedTunes.Application.Common.Interfaces;
 
-namespace SortedTunes.Application.Albums.Commands.CreateAlbum;
+namespace SortedTunes.Application.Albums.Commands.UpdateAlbum;
 
-public class CreateAlbumCommandValidator : AbstractValidator<CreateAlbumCommand>
+public class UpdateAlbumCommandValidator : AbstractValidator<UpdateAlbumCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateAlbumCommandValidator(IApplicationDbContext context)
+    public UpdateAlbumCommandValidator(IApplicationDbContext context)
     {
         _context = context;
 
@@ -18,9 +18,10 @@ public class CreateAlbumCommandValidator : AbstractValidator<CreateAlbumCommand>
                 .WithErrorCode("Unique");
     }
 
-    public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+    public async Task<bool> BeUniqueTitle(UpdateAlbumCommand model, string title, CancellationToken cancellationToken)
     {
         return await _context.Albums
+            .Where(a => a.Id != model.Id)
             .AllAsync(a => a.Title != title, cancellationToken);
     }
 }

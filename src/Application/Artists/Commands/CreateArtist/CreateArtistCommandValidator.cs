@@ -14,7 +14,7 @@ public class CreateArtistCommandValidator : AbstractValidator<CreateArtistComman
             .NotEmpty()
             .MaximumLength(200)
             .MustAsync(BeUniqueName)
-                .WithMessage("'{PropertyName}' must be unique.")
+                .WithMessage("{PropertyName} must be unique.")
                 .WithErrorCode("Unique");
     }
 

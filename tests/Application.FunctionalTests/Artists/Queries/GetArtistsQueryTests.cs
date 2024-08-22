@@ -1,5 +1,4 @@
 ﻿using SortedTunes.Application.Artists.Queries.GetArtists;
-using SortedTunes.Domain.Entities;
 
 namespace SortedTunes.Application.FunctionalTests.Artists.Queries;
 
