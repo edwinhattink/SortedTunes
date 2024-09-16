@@ -18,7 +18,7 @@ public class CreateGenreCommandValidator : AbstractValidator<CreateGenreCommand>
         RuleFor(v => v.ParentGenreId)
             .MustAsync(ExistGenre)
                 .When(v => v.ParentGenreId.HasValue)
-                .WithMessage("Parent genre with Id '{PropertyValue}' does not exist.")
+                .WithMessage("Parent genre with Id {PropertyValue} does not exist.")
                 .WithErrorCode("Exists");
     }
 

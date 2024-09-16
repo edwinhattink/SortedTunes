@@ -21,18 +21,19 @@ public class CreateTrackCommandValidator : AbstractValidator<CreateTrackCommand>
             .WithMessage("Track title must not exceed 200 characters.");
 
         RuleFor(v => v.FileName)
+            .NotEmpty()
             .MaximumLength(200)
             .When(v => v.FileName != null)
             .WithMessage("File name must not exceed 200 characters.");
 
         RuleFor(v => v.DiscId)
             .MustAsync(ExistDisc)
-            .WithMessage("Disc with Id '{PropertyValue}' does not exist.")
+            .WithMessage("Disc with Id {PropertyValue} does not exist.")
             .WithErrorCode("Exists");
 
         RuleFor(v => v.GenreId)
             .MustAsync(ExistGenre)
-            .WithMessage("Genre with Id '{PropertyValue}' does not exist.")
+            .WithMessage("Genre with Id {PropertyValue} does not exist.")
             .WithErrorCode("Exists");
     }
 
