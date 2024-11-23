@@ -1,56 +1,24 @@
 {
-  "x-generator": "NSwag v14.0.3.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "x-generator": "NSwag v14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "SortedTunes API",
     "version": "1.0.0"
   },
   "paths": {
-    "/api/TodoItems": {
+    "/api/Albums": {
       "get": {
         "tags": [
-          "TodoItems"
+          "Albums"
         ],
-        "operationId": "GetTodoItemsWithPagination",
-        "parameters": [
-          {
-            "name": "ListId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          },
-          {
-            "name": "PageNumber",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "PageSize",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          }
-        ],
+        "operationId": "GetAlbums",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedListOfTodoItemBriefDto"
+                  "$ref": "#/components/schemas/PaginatedListOfAlbumDto"
                 }
               }
             }
@@ -59,15 +27,15 @@
       },
       "post": {
         "tags": [
-          "TodoItems"
+          "Albums"
         ],
-        "operationId": "CreateTodoItem",
+        "operationId": "CreateAlbum",
         "requestBody": {
           "x-name": "command",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoItemCommand"
+                "$ref": "#/components/schemas/CreateAlbumCommand"
               }
             }
           },
@@ -89,12 +57,42 @@
         }
       }
     },
-    "/api/TodoItems/{id}": {
+    "/api/Albums/{id}": {
+      "get": {
+        "tags": [
+          "Albums"
+        ],
+        "operationId": "GetAlbum",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlbumDto"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "tags": [
-          "TodoItems"
+          "Albums"
         ],
-        "operationId": "UpdateTodoItem",
+        "operationId": "UpdateAlbum",
         "parameters": [
           {
             "name": "id",
@@ -112,7 +110,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTodoItemCommand"
+                "$ref": "#/components/schemas/UpdateAlbumCommand"
               }
             }
           },
@@ -127,9 +125,9 @@
       },
       "delete": {
         "tags": [
-          "TodoItems"
+          "Albums"
         ],
-        "operationId": "DeleteTodoItem",
+        "operationId": "DeleteAlbum",
         "parameters": [
           {
             "name": "id",
@@ -149,56 +147,19 @@
         }
       }
     },
-    "/api/TodoItems/UpdateDetail/{id}": {
-      "put": {
-        "tags": [
-          "TodoItems"
-        ],
-        "operationId": "UpdateTodoItemDetail",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateTodoItemDetailCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/api/TodoLists": {
+    "/api/Artists": {
       "get": {
         "tags": [
-          "TodoLists"
+          "Artists"
         ],
-        "operationId": "GetTodoLists",
+        "operationId": "GetArtists",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodosVm"
+                  "$ref": "#/components/schemas/PaginatedListOfArtistDto"
                 }
               }
             }
@@ -207,15 +168,15 @@
       },
       "post": {
         "tags": [
-          "TodoLists"
+          "Artists"
         ],
-        "operationId": "CreateTodoList",
+        "operationId": "CreateArtist",
         "requestBody": {
           "x-name": "command",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoListCommand"
+                "$ref": "#/components/schemas/CreateArtistCommand"
               }
             }
           },
@@ -237,12 +198,12 @@
         }
       }
     },
-    "/api/TodoLists/{id}": {
+    "/api/Artists/{id}": {
       "put": {
         "tags": [
-          "TodoLists"
+          "Artists"
         ],
-        "operationId": "UpdateTodoList",
+        "operationId": "UpdateArtist",
         "parameters": [
           {
             "name": "id",
@@ -260,7 +221,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTodoListCommand"
+                "$ref": "#/components/schemas/UpdateArtistCommand"
               }
             }
           },
@@ -275,9 +236,9 @@
       },
       "delete": {
         "tags": [
-          "TodoLists"
+          "Artists"
         ],
-        "operationId": "DeleteTodoList",
+        "operationId": "DeleteArtist",
         "parameters": [
           {
             "name": "id",
@@ -293,29 +254,6 @@
         "responses": {
           "200": {
             "description": ""
-          }
-        }
-      }
-    },
-    "/api/WeatherForecasts": {
-      "get": {
-        "tags": [
-          "WeatherForecasts"
-        ],
-        "operationId": "GetWeatherForecasts",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -323,14 +261,14 @@
   },
   "components": {
     "schemas": {
-      "PaginatedListOfTodoItemBriefDto": {
+      "PaginatedListOfAlbumDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TodoItemBriefDto"
+              "$ref": "#/components/schemas/AlbumDto"
             }
           },
           "pageNumber": {
@@ -353,42 +291,7 @@
           }
         }
       },
-      "TodoItemBriefDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "done": {
-            "type": "boolean"
-          }
-        }
-      },
-      "CreateTodoItemCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateTodoItemCommand": {
+      "AlbumDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -397,70 +300,28 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
-          "done": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UpdateTodoItemDetailCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
+          "releaseYear": {
             "type": "integer",
             "format": "int32"
           },
-          "listId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "priority": {
-            "$ref": "#/components/schemas/PriorityLevel"
-          },
-          "note": {
+          "image": {
             "type": "string",
             "nullable": true
           }
         }
       },
-      "PriorityLevel": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "None",
-          "Low",
-          "Medium",
-          "High"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
-      },
-      "TodosVm": {
+      "CreateAlbumCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "priorityLevels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LookupDto"
-            }
-          },
-          "lists": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TodoListDto"
-            }
+          "title": {
+            "type": "string"
           }
         }
       },
-      "LookupDto": {
+      "UpdateAlbumCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -469,75 +330,41 @@
             "format": "int32"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         }
       },
-      "TodoListDto": {
+      "PaginatedListOfArtistDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "colour": {
-            "type": "string",
-            "nullable": true
-          },
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TodoItemDto"
+              "$ref": "#/components/schemas/ArtistDto"
             }
-          }
-        }
-      },
-      "TodoItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
+          },
+          "pageNumber": {
             "type": "integer",
             "format": "int32"
           },
-          "listId": {
+          "totalPages": {
             "type": "integer",
             "format": "int32"
           },
-          "title": {
-            "type": "string",
-            "nullable": true
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
           },
-          "done": {
+          "hasPreviousPage": {
             "type": "boolean"
           },
-          "priority": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "note": {
-            "type": "string",
-            "nullable": true
+          "hasNextPage": {
+            "type": "boolean"
           }
         }
       },
-      "CreateTodoListCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateTodoListCommand": {
+      "ArtistDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -545,31 +372,30 @@
             "type": "integer",
             "format": "int32"
           },
-          "title": {
-            "type": "string",
-            "nullable": true
+          "name": {
+            "type": "string"
           }
         }
       },
-      "WeatherForecast": {
+      "CreateArtistCommand": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "temperatureC": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateArtistCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
+          "name": {
+            "type": "string"
           }
         }
       }

@@ -1,0 +1,17 @@
+<h1>Artists</h1>
+
+<p *ngIf="!artistList"><em>Loading...</em></p>
+
+<div *ngIf="artistList">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <ul class="list-group">
+        <li *ngFor="let artist of artistList; index as i" >
+          {{artist.name}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+    

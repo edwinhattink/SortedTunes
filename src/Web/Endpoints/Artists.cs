@@ -6,12 +6,12 @@ using SortedTunes.Application.Common.Models;
 
 namespace SortedTunes.Web.Endpoints;
 
-public class ArtistsEndpoint : EndpointGroupBase
+public class Artists : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .RequireAuthorization()
+            //.RequireAuthorization()
             .MapGet(GetArtists) // Assuming you have a URL pattern
             .MapPost(CreateArtist)
             .MapPut(UpdateArtist, "{id}")
