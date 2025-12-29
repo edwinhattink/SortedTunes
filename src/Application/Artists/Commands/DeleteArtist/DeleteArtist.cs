@@ -4,25 +4,18 @@ namespace SortedTunes.Application.Artists.Commands.DeleteArtist;
 
 public record DeleteArtistCommand(int Id) : IRequest;
 
-public class DeleteArtistCommandHandler : IRequestHandler<DeleteArtistCommand>
+public class DeleteArtistCommandHandler(IApplicationDbContext context) : IRequestHandler<DeleteArtistCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public DeleteArtistCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task Handle(DeleteArtistCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Artists
+        var entity = await context.Artists
             .Where(l => l.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);
 
-        _context.Artists.Remove(entity);
+        context.Artists.Remove(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

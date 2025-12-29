@@ -12,15 +12,8 @@ public record CreateTrackCommand : IRequest<int>
     public required int GenreId { get; set; }
 }
 
-public class CreateTrackCommandHandler : IRequestHandler<CreateTrackCommand, int>
+public class CreateTrackCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateTrackCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateTrackCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<int> Handle(CreateTrackCommand request, CancellationToken cancellationToken)
     {
         var entity = new Track()
@@ -32,9 +25,9 @@ public class CreateTrackCommandHandler : IRequestHandler<CreateTrackCommand, int
             GenreId = request.GenreId
         };
 
-        _context.Tracks.Add(entity);
+        context.Tracks.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }

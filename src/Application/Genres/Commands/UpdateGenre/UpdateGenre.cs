@@ -9,25 +9,18 @@ public record UpdateGenreCommand : IRequest
     public int? ParentGenreId { get; set; }
 }
 
-public class UpdateGenreCommandHandler : IRequestHandler<UpdateGenreCommand>
+public class UpdateGenreCommandHandler(IApplicationDbContext context) : IRequestHandler<UpdateGenreCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateGenreCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task Handle(UpdateGenreCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Genres
-            .FindAsync(new object[] { request.Id }, cancellationToken);
+        var entity = await context.Genres
+            .FindAsync([request.Id], cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);
 
         entity.Name = request.Name;
         entity.ParentGenreId = request.ParentGenreId;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

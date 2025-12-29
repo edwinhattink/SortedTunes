@@ -11,15 +11,8 @@ public record CreateContributionCommand : IRequest<int>
     public required ContributionType ContributionType { get; init; }
 }
 
-public class CreateContributionCommandHandler : IRequestHandler<CreateContributionCommand, int>
+public class CreateContributionCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateContributionCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateContributionCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<int> Handle(CreateContributionCommand request, CancellationToken cancellationToken)
     {
         var entity = new Contribution()
@@ -29,9 +22,9 @@ public class CreateContributionCommandHandler : IRequestHandler<CreateContributi
             ContributionType = request.ContributionType,
         };
 
-        _context.Contributions.Add(entity);
+        context.Contributions.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }

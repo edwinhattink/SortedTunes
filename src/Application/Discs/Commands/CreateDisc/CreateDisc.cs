@@ -10,15 +10,8 @@ public record CreateDiscCommand : IRequest<int>
     public required int AlbumId { get; init; }
 }
 
-public class CreateDiscCommandHandler : IRequestHandler<CreateDiscCommand, int>
+public class CreateDiscCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateDiscCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateDiscCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<int> Handle(CreateDiscCommand request, CancellationToken cancellationToken)
     {
         var entity = new Disc()
@@ -28,9 +21,9 @@ public class CreateDiscCommandHandler : IRequestHandler<CreateDiscCommand, int>
             AlbumId = request.AlbumId
         };
 
-        _context.Discs.Add(entity);
+        context.Discs.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }

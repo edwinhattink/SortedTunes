@@ -8,24 +8,17 @@ public record UpdateAlbumCommand : IRequest
     public required string Title { get; init; }
 }
 
-public class UpdateAlbumCommandHandler : IRequestHandler<UpdateAlbumCommand>
+public class UpdateAlbumCommandHandler(IApplicationDbContext context) : IRequestHandler<UpdateAlbumCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateAlbumCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task Handle(UpdateAlbumCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Albums
-            .FindAsync(new object[] { request.Id }, cancellationToken);
+        var entity = await context.Albums
+            .FindAsync([request.Id], cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);
 
         entity.Title = request.Title;
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

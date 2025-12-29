@@ -9,25 +9,17 @@ public record UpdateArtistCommand : IRequest
     public required string Name { get; init; }
 }
 
-public class UpdateArtistCommandHandler : IRequestHandler<UpdateArtistCommand>
+public class UpdateArtistCommandHandler(IApplicationDbContext context) : IRequestHandler<UpdateArtistCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public UpdateArtistCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task Handle(UpdateArtistCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Artists
-            .FindAsync(new object[] { request.Id }, cancellationToken);
+        var entity = await context.Artists
+            .FindAsync([request.Id], cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);
 
         entity.Name = request.Name;
 
-        await _context.SaveChangesAsync(cancellationToken);
-
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

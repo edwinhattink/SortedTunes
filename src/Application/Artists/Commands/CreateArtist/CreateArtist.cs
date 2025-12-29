@@ -8,22 +8,15 @@ public record CreateArtistCommand : IRequest<int>
     public required string Name { get; init; }
 }
 
-public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, int>
+public class CreateArtistCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateArtistCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateArtistCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<int> Handle(CreateArtistCommand request, CancellationToken cancellationToken)
     {
         var entity = new Artist() { Name = request.Name };
 
-        _context.Artists.Add(entity);
+        context.Artists.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }

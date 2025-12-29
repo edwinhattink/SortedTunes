@@ -9,22 +9,15 @@ public record CreateDiscContributionCommand : IRequest<int>
     public required int ArtistId { get; init; }
 }
 
-public class CreateDiscContributionCommandHandler : IRequestHandler<CreateDiscContributionCommand, int>
+public class CreateDiscContributionCommandHandler(IApplicationDbContext context) : IRequestHandler<CreateDiscContributionCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateDiscContributionCommandHandler(IApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<int> Handle(CreateDiscContributionCommand request, CancellationToken cancellationToken)
     {
         var entity = new DiscContribution() { DiscId = request.DiscId, ArtistId = request.ArtistId };
 
-        _context.DiscContributions.Add(entity);
+        context.DiscContributions.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }
