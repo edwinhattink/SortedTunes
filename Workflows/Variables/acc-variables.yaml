@@ -1,9 +1,0 @@
-variables:
-  domain: "auth-acc.whatstheprice.com"
-  clientId: "6rYM4dC9lWubi5o8kMDvwJtSgFE2Fgso"
-  callbackUrl: "https://cost-models-acc.whatstheprice.com/callback"
-  audience: "buynamics-wtp-cost-models-api"
-  apiUrl: "https://cost-models-acc.whatstheprice.com"
-  environmentName: "acc"
-  deploymentToken: $(static_web_app_deployment_token_acc)
-  cmsApiUrl: "https://cms-acc.whatstheprice.com"
