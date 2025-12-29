@@ -1,0 +1,24 @@
+trigger: none
+
+parameters:
+  - name: environment
+    displayName: Environment
+    type: string
+    values:
+      - tst
+      - acc
+      - prd
+
+stages:
+  - stage: refresh
+    displayName: Refresh
+    dependsOn: []
+    jobs:
+      - job: refresh
+        displayName: Refresh
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - template: Workflows/Pipelines/refresh.yaml
+            parameters:
+              environment: ${{parameters.environment}}

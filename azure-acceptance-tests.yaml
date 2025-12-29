@@ -1,0 +1,71 @@
+trigger: none
+
+schedules:
+- cron: "0 4 * * *"
+  displayName: Daily 4 AM build
+  branches:
+    include:
+    - main
+  always: true
+
+parameters:
+  - name: environment
+    displayName: Environment
+    type: string
+    values:
+      - tst
+      - acc
+      - prd
+    default: prd
+  - name: smokeOnly
+    displayName: Smoke tests only
+    type: boolean
+    default: true
+
+stages:
+  - stage: build_and_publish
+    displayName: Build And Publish
+    dependsOn: []
+    jobs:
+      - job: build_and_publish
+        displayName: Build And Publish
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+            fetchDepth: 0
+
+          - template: /Workflows/Pipelines/dotnet-restore.yaml
+
+          - task: DotNetCoreCLI@2
+            displayName: Prepare Web.AcceptanceTests
+            inputs:
+              command: "publish"
+              publishWebProjects: false
+              projects: |
+                tests/Web.AcceptanceTests/Web.AcceptanceTests.csproj
+              arguments: "--configuration Release --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: true
+          - publish: $(Build.ArtifactStagingDirectory)
+            displayName: Publish Artifacts
+            artifact: drop
+
+  - stage: acceptance_tests
+    displayName: Acceptance tests
+    dependsOn: [build_and_publish]
+    jobs:
+      - job: "acceptancetests"
+        displayName: Acceptance Tests
+        workspace:
+          clean: all
+        variables:
+          - template: "Workflows/Variables/${{parameters.environment}}-variables.yaml"
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+          - template: Workflows/Pipelines/acceptance-tests.yaml
+            parameters:
+              buildConfiguration: Release
+              environmentName: ${{parameters.environment}}
+              smokeOnly: ${{parameters.smokeOnly}}

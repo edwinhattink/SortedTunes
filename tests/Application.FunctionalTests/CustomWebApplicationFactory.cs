@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
-using SortedTunes.Application.Common.Interfaces;
+using System.Reflection;
+using Buynamics.Toolkit.Security.Interfaces;
 using SortedTunes.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -11,32 +12,29 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace SortedTunes.Application.FunctionalTests;
 
-using static Testing;
-
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+public class CustomWebApplicationFactory(
+    Action<IServiceCollection> serviceCollection,
+    DbConnection connection
+) : WebApplicationFactory<Program>
 {
-    private readonly DbConnection _connection;
-
-    public CustomWebApplicationFactory(DbConnection connection)
-    {
-        _connection = connection;
-    }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
         {
-            services
-                .RemoveAll<IUser>()
-                .AddTransient(provider => Mock.Of<IUser>(s => s.Id == GetUserId()));
+            services.RemoveAll<ICurrentUserService>()
+                .AddTransient<ICurrentUserService, CurrentUserService>();
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services
                 .RemoveAll<DbContextOptions<ApplicationDbContext>>()
                 .AddDbContext<ApplicationDbContext>((sp, options) =>
                 {
                     options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-                    options.UseSqlServer(_connection);
+                    options.UseSqlServer(connection);
                 });
         });
+
+        builder.ConfigureServices(services => serviceCollection.Invoke(services));
     }
 }

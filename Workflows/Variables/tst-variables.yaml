@@ -1,0 +1,9 @@
+variables:
+  domain: "auth-tst.whatstheprice.com"
+  clientId: "2jlmOBCxpSitqfkJDtSr4r7d6VgRjCbT"
+  callbackUrl: "https://cost-models-tst.whatstheprice.com/callback"
+  audience: "buynamics-wtp-cost-models-api"
+  apiUrl: "https://cost-models-tst.whatstheprice.com"
+  environmentName: "tst"
+  deploymentToken: $(static_web_app_deployment_token_tst)
+  cmsApiUrl: "https://cms-tst.whatstheprice.com"

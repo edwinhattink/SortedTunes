@@ -1,0 +1,92 @@
+parameters:
+  - name: buildConfiguration
+
+steps:
+  - checkout: self
+    fetchDepth: 0
+
+  - task: SonarCloudPrepare@3
+    displayName: SonarCloud prepare
+    inputs:
+      SonarCloud: "SonarCloud"
+      organization: "buynamics"
+      scannerMode: "dotnet"
+      projectKey: "buynamics2_SortedTunes"
+      projectName: "SortedTunes"
+      extraProperties: |
+        sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/**/coverage.opencover.xml
+        sonar.javascript.lcov.reportPaths=$(System.DefaultWorkingDirectory)/src/Web/ClientAppCostModels/coverage/lcov.info
+        sonar.projectBaseDir=$(System.DefaultWorkingDirectory)
+        sonar.scanner.scanAll=false
+
+  - template: dotnet-restore.yaml
+    parameters:
+      buildConfiguration: ${{parameters.buildConfiguration}}
+  
+  - task: DotNetCoreCLI@2
+    displayName: "Build solutions"
+    inputs:
+      command: build
+      projects: "**/*.sln"
+      configuration: ${{ parameters.buildConfiguration }}
+      arguments: "--no-restore /p:Configuration=${{ parameters.buildConfiguration }}"
+
+  - task: DotNetCoreCLI@2
+    displayName: "Run unit, functional & integration tests"
+    inputs:
+      command: test
+      publishTestResults: true
+      arguments: '--no-build --logger trx --collect:"XPlat Code Coverage;Format=opencover,cobertura" --configuration ${{parameters.buildConfiguration}}'
+      projects: |
+        **/*[Uu]nit[Tt]ests*/*.csproj
+        **/*[Ii]ntegration[Tt]ests*/*.csproj
+        **/*[Ff]unctional[Tt]ests*/*.csproj
+    env:
+      ConnectionStrings__DefaultConnection: "fakeconnection"
+
+  - task: PublishTestResults@2
+    displayName: Publish test results backend
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: "$(Agent.TempDirectory)/*.trx"     
+
+  - template: npm-install.yaml
+
+  - task: Npm@1
+    displayName: Npm build
+    inputs:
+      command: custom
+      workingDir: "$(System.DefaultWorkingDirectory)/src/Web/ClientAppCostModels"
+      customCommand: "run build"
+
+  - task: Npm@1
+    displayName: Npm test
+    inputs:
+      command: custom
+      workingDir: "$(System.DefaultWorkingDirectory)/src/Web/ClientAppCostModels"
+      customCommand: "run test:coverage"
+
+  - task: PublishTestResults@2
+    displayName: Publish test results frontend
+    inputs:
+      testRunTitle: "Jest Test Results"
+      searchFolder: "$(System.DefaultWorkingDirectory)/src/Web/ClientAppCostModels"
+      testResultsFiles: "$(System.DefaultWorkingDirectory)/src/Web/ClientAppCostModels/test-results/jest/coverage-results.xml"
+
+  - task: reportgenerator@5
+    displayName: Merge code coverage reports
+    inputs:
+      reports: "$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(System.DefaultWorkingDirectory)/src/Web/ClientAppCostModels/coverage/cobertura-coverage.xml"
+      targetdir: "$(Pipeline.Workspace)/coverlet"
+      reporttypes: "Cobertura"
+
+  - task: PublishCodeCoverageResults@2
+    displayName: Publish test coverage results
+    inputs:
+      summaryFileLocation: $(Pipeline.Workspace)/coverlet/Cobertura.xml
+
+  - task: SonarCloudAnalyze@3
+    displayName: SonarCloud analyze
+
+  - task: SonarCloudPublish@3
+    displayName: SonarCloud publish

@@ -1,4 +1,6 @@
-﻿namespace SortedTunes.Domain.Entities;
+﻿using SortedTunes.Domain.Enums;
+
+namespace SortedTunes.Domain.Entities;
 
 public class Contribution : BaseAuditableEntity
 {

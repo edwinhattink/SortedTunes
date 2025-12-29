@@ -1,71 +1,117 @@
-﻿# SortedTunes
+# SortedTunes
 
-The project was generated using the [Clean.Architecture.Solution.Template](https://github.com/jasontaylordev/SortedTunes) version 8.0.4.
+This project is a service for What's The Price. The project is intended for users to manage cost models. The API is secured with OAuth2.0 protocols. (Client Credentials Flow)
 
-## Build
+## Support
 
-Run `dotnet build -tl` to build the solution.
+The template is never perfect or complete. So let's keep developing to ensure the highest project standards within Buynamics. Changes or additions can be submitted through pull requests.
 
-## Run
+## Contribute
 
-To run the web application:
+Contribution to this project is expected according to the following [standards](https://dev.azure.com/buynamics2/Whats%20The%20Price/_wiki/wikis/Whats-The-Price.wiki/17/Code-conventions).
 
-```bash
-cd .\src\Web\
-dotnet watch run
-```
+## Confidentiality
 
-Navigate to https://localhost:5001. The application will automatically reload if you change any of the source files.
+The template is intended for **internal** use only!
 
-## Code Styles & Formatting
+## Starting up
 
-The template includes [EditorConfig](https://editorconfig.org/) support to help maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs. The **.editorconfig** file defines the coding styles applicable to this solution.
+In the folder `src/Web/ClientAppCostModels` you have to run the command `npm install`.
 
-## Code Scaffolding
+## Migrations
 
-The template includes support to scaffold new commands and queries.
-
-Start in the `.\src\Application\` folder.
-
-Create a new command:
+1. Install Entity Framework Core tools by following this tutorial: [Install Entity Framework Core Tools Guide](https://docs.microsoft.com/nl-nl/ef/core/cli/dotnet).
+2. Add _Persistence/Migrations_ folder to the _Infrastructure_ project.
+3. Edit the project file and remove _<PrivateAssets>all</PrivateAssets>_ from the Microsoft.EntityFrameworkCore.Design configuration.
 
 ```
-dotnet new ca-usecase --name CreateTodoList --feature-name TodoLists --usecase-type command --return-type int
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+  </ItemGroup>
 ```
 
-Create a new query:
+4. Run the following command to create an initial migration:
 
 ```
-dotnet new ca-usecase -n GetTodos -fn TodoLists -ut query -rt TodosVm
+dotnet ef migrations add InitialCreate --project src/Infrastructure --startup-project src/Web --output-dir Data/Migrations
 ```
 
-If you encounter the error *"No templates or subcommands found matching: 'ca-usecase'."*, install the template and try again:
+5. Now you're ready to create your database schema from the migration. This can be done via the following command:
 
-```bash
-dotnet new install Clean.Architecture.Solution.Template::8.0.4
+```
+dotnet ef database update --project src/Infrastructure --startup-project src/Web
 ```
 
-## Test
+6. Formulate a deployment strategy for production environments: [Apply migrations](https://docs.microsoft.com/nl-nl/ef/core/managing-schemas/migrations/applying?tabs=dotnet-core-cli).
+7. Changes made to the domain or application must be synced to the database. Use the following command to create new migrations:
 
-The solution contains unit, integration, functional, and acceptance tests.
-
-To run the unit, integration, and functional tests (excluding acceptance tests):
-```bash
-dotnet test --filter "FullyQualifiedName!~AcceptanceTests"
+```
+dotnet ef migrations add <AddTitle> --project src/Infrastructure --startup-project src/Web --output-dir Data/Migrations
 ```
 
-To run the acceptance tests, first start the application:
+## Running acceptance tests on a local machine
 
-```bash
-cd .\src\Web\
-dotnet run
+To run the acceptance tests (in Web.AcceptanceTests), we need to get Microsoft.Playwright running. For this, you need to follow these steps:
+
+1. Open a PowerShell window in the Web.AcceptanceTests folder.
+   (for example `C:\Projects\SortedTunes\tests\Web.AcceptanceTests`)
+2. Run the following command in the folder (or build the project in Visual Studio)
+
+```
+dotnet build
 ```
 
-Then, in a new console, run the tests:
-```bash
-cd .\src\Web\
-dotnet test
+3. Run the following command after the build is succesful (9.0 is our current dotnet version)
+
+```
+pwsh bin/Debug/net9.0/playwright.ps1 install
 ```
 
-## Help
-To learn more about the template go to the [project website](https://github.com/jasontaylordev/CleanArchitecture). Here you can find additional guidance, request new features, report a bug, and discuss the template with other users.
+If `pwsh` is not available, you have to [install PowerShell](https://learn.microsoft.com/nl-nl/powershell/scripting/install/installing-powershell-on-windows) with winget 4. Now you can open the seperate solution `Web.AcceptanceTests` and run the tests. Note: you have to be running the other solution aswell on your machine. The URL the acceptance tests use is defined in `appsettings.json`.`
+
+### SpecFlow extensions
+
+Install the "SpecFlow for Visual Studio 2022" on your Visual Studio.
+
+### Codegen for Playwright
+
+Run the following command in the acceptance tests folder to start up codegen windows of Playwright. Make sure you've run the tests once, so you have the jsons for userstates!
+
+```
+pwsh bin/Debug/net9.0/playwright.ps1 codegen https://localhost:50000/ --load-storage=bin/Debug/net9.0/userstate-for-Admin.json
+```
+
+## Code formatter (React/TypeScript)
+
+The usage of `Prettier` is mandatory for the React.ts project. ("src/Web/ClientAppCostModels") The package is already added as a development dependency to `package.json`. This leaves you with two options to format the project. The general advise is to take the first option.
+
+1. Install the [Prettier Extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for Visual Studio. After installing hit `Ctrl + Shift + p`, then search and open `Preferences: Open User Settings (JSON)`. Add the following code snippet inside of the JSON file. Now your code will be formatted automatically when you save a file.
+
+```
+"[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+},
+"editor.formatOnSave": true
+```
+
+2. Run the following command to format all documents in the project: `npm run pretty`.
+
+## Elasticsearch settings
+
+In appsettings, you have to set your local machines elastic settings.
+You can see how to install Elastic on your machine on [this wiki page](https://dev.azure.com/buynamics2/Whats%20The%20Price/_wiki/wikis/Whats-The-Price.wiki/36/Elasticsearch-installatie).
+
+```
+"Elasticsearch": {
+  "Url": "https://localhost:9200",
+  "Fingerprint": "{fingerprint}",
+  "Username": "elastic",
+  "Password": "{password}"
+}
+```

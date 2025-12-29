@@ -1,0 +1,17 @@
+trigger: none
+
+parameters:
+  - name: buildConfiguration
+    type: string
+    default: Release
+    values:
+      - Release
+      - Debug
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - template: Workflows/Pipelines/test-frontend-backend.yaml
+    parameters:
+      buildConfiguration: ${{parameters.buildConfiguration}}

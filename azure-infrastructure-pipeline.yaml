@@ -1,0 +1,52 @@
+trigger: none
+
+stages:
+  - stage: deploy_infrastructure_test
+    displayName: Deploy infrastructure test
+    dependsOn: []
+    jobs:
+      - job: deploy_infrastructure
+        displayName: Deploy infrastructure
+        pool:
+          vmImage: ubuntu-latest
+        variables:
+          resourceGroupName: "rg-weu-wa-cost-models-tst"
+          subscriptionId: "e143dccb-ed11-479c-b391-c932752095be"
+          serviceConnection: "sc-buy-tst-sub"
+          environment: "tst"
+        steps:
+          - template: Workflows/Pipelines/deploy-infrastructure.yaml
+
+  - stage: deploy_infrastructure_acc
+    displayName: Deploy infrastructure acceptance
+    dependsOn:
+      - deploy_infrastructure_test
+    jobs:
+      - job: deploy_infrastructure
+        displayName: Deploy infrastructure
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - template: Workflows/Pipelines/deploy-infrastructure.yaml
+            parameters:
+              resourceGroupName: "rg-weu-wa-cost-models-acc"
+              subscriptionId: "9977a87c-86ae-4805-913b-bf5a10882dc3"
+              serviceConnection: "sc-buy-acc-sub"
+              environment: "acc"
+
+  - stage: deploy_infrastructure_prod
+    displayName: Deploy infrastructure production
+    dependsOn:
+      - deploy_infrastructure_acc
+    jobs:
+      - job: deploy_infrastructure
+        displayName: Deploy infrastructure
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - template: Workflows/Pipelines/deploy-infrastructure.yaml
+            parameters:
+              resourceGroupName: "rg-weu-wa-cost-models-prd"
+              subscriptionId: "bd085457-e539-4e7e-bb90-d88d60d2f38d"
+              serviceConnection: "sc-buy-prd-sub"
+              environment: "prd"

@@ -1,0 +1,81 @@
+parameters:
+  - name: environmentName
+
+steps:
+  - download: current
+    displayName: Download artifacts to deploy Web App
+    artifact: drop
+
+  - task: AzureKeyVault@2
+    displayName: Download key vault secrets
+    inputs:
+      azureSubscription: sc-rg-weu-keyvault-${{parameters.environmentName}}
+      KeyVaultName: kv-weu-buy-$(environmentName)-001
+      SecretsFilter: "*"
+      RunAsPreJob: false
+
+  - script: az login --identity
+    displayName: Azure login
+
+  - script: az account set --subscription buy-${{parameters.environmentName}}-sub
+    displayName: Azure account set to subscription
+
+  - script: az sql db export
+      --resource-group rg-weu-sql-${{parameters.environmentName}}
+      --server sql-weu-buy-${{parameters.environmentName}}-001
+      --name cost-models-db
+      --storage-key-type StorageAccessKey
+      --storage-key '$(sabuyweu-key-1)'
+      --storage-uri "https://sabuyweu${{parameters.environmentName}}.blob.core.windows.net/sql-database-backups/build-backup-cost-models-${{parameters.environmentName}}-$(Build.BuildNumber).bacpac"
+      --admin-user $(admin-user-sql)
+      --admin-password '$(admin-user-sql-password)'
+    displayName: Back-up database
+
+  - task: AzureWebApp@1
+    displayName: Deploy Backend
+    inputs:
+      azureSubscription: sc-rg-weu-wa-cost-models-${{parameters.environmentName}}
+      appType: "webAppLinux"
+      appName: wa-weu-cost-models-api-$(environmentName)
+      package: "$(Pipeline.Workspace)/drop/Web.zip"
+      deploymentMethod: "auto"
+      runtimeStack: "DOTNETCORE|9.0"
+
+  - task: AzureAppServiceSettings@1
+    displayName: Set app settings Backend
+    inputs:
+      azureSubscription: sc-rg-weu-wa-cost-models-${{parameters.environmentName}}
+      appName: wa-weu-cost-models-api-$(environmentName)
+      resourceGroup: rg-weu-wa-cost-models-${{parameters.environmentName}}
+      appSettings: |
+        [
+          {
+            "name": "Elasticsearch__ApiKey",
+            "value": "$(kvs-elastic-search-api-key)",
+            "slotSetting": false
+          },
+          {
+            "name": "FreightApi__ClientId",
+            "value": "$(kvs-data-api-client-id)",
+            "slotSetting": false
+          },
+          {
+            "name": "FreightApi__ClientSecret",
+            "value": "$(kvs-data-api-client-secret)",
+            "slotSetting": false
+          },
+          {
+            "name": "Messaging__ConnectionString",
+            "value": "$(kvs-service-bus-connection-string)",
+            "slotSetting": false
+          }
+        ]
+      connectionStrings: |
+        [
+          {
+            "name": "DefaultConnection",
+            "value": "$(kvs-sql-connection-string-cost-models-db)",
+            "type": "SQLAzure",
+            "slotSetting": false
+          }
+        ]

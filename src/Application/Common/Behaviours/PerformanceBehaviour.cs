@@ -1,52 +1,37 @@
 ﻿using System.Diagnostics;
-using SortedTunes.Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
+using SortedTunes.Application.Elasticsearch.Interfaces;
 
 namespace SortedTunes.Application.Common.Behaviours;
 
-public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class PerformanceBehaviour<TRequest, TResponse>(
+    ILogger<TRequest> logger,
+    IElasticsearchLoggingService elasticsearchLoggingService
+) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    private readonly Stopwatch _timer;
-    private readonly ILogger<TRequest> _logger;
-    private readonly IUser _user;
-    private readonly IIdentityService _identityService;
-
-    public PerformanceBehaviour(
-        ILogger<TRequest> logger,
-        IUser user,
-        IIdentityService identityService)
-    {
-        _timer = new Stopwatch();
-
-        _logger = logger;
-        _user = user;
-        _identityService = identityService;
-    }
+    private readonly Stopwatch _timer = new();
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         _timer.Start();
 
-        var response = await next();
+        var response = await next(cancellationToken);
 
         _timer.Stop();
 
         var elapsedMilliseconds = _timer.ElapsedMilliseconds;
+        var requestName = typeof(TRequest).Name;
 
         if (elapsedMilliseconds > 500)
         {
-            var requestName = typeof(TRequest).Name;
-            var userId = _user.Id ?? string.Empty;
-            var userName = string.Empty;
+            var userId = "Anonymous";
+            //TODO: var userId = currentUserService.IsLoggedIn ? currentUserService.GetUser().AuthId : "";
 
-            if (!string.IsNullOrEmpty(userId))
-            {
-                userName = await _identityService.GetUserNameAsync(userId);
-            }
-
-            _logger.LogWarning("SortedTunes Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
-                requestName, elapsedMilliseconds, userId, userName, request);
+            logger.LogWarning("SortedTunes Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
+                requestName, elapsedMilliseconds, userId, request);
         }
+
+        await elasticsearchLoggingService.AddLogging(request, elapsedMilliseconds, cancellationToken);
 
         return response;
     }

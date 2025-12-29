@@ -1,0 +1,100 @@
+trigger:
+  - main
+
+parameters:
+  - name: buildConfiguration
+    displayName: Build Configuration
+    type: string
+    default: Release
+    values:
+      - Release
+      - Debug
+
+stages:
+  - stage: build_and_publish
+    displayName: Build and publish
+    dependsOn: []
+    jobs:
+      - job: build_and_publish
+        displayName: Build, test and publish
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - template: Workflows/Pipelines/test-frontend-backend.yaml
+            parameters:
+              buildConfiguration: ${{parameters.buildConfiguration}}
+
+          - task: DotNetCoreCLI@2
+            displayName: Prepare Artifacts Web & Web Acceptatie
+            inputs:
+              command: "publish"
+              publishWebProjects: false
+              projects: |
+                src/Web/Web.csproj
+                tests/Web.AcceptanceTests/Web.AcceptanceTests.csproj
+              arguments: "--no-build --configuration ${{parameters.buildConfiguration}} --output $(Build.ArtifactStagingDirectory)"
+              zipAfterPublish: true
+
+          - publish: $(Build.ArtifactStagingDirectory)
+            displayName: Publish Artifacts
+            artifact: drop
+
+      - job: build_frontend_tst
+        displayName: Build frontend test
+        dependsOn: build_and_publish
+        variables:
+          - template: Workflows/Variables/tst-variables.yaml
+        steps:
+          - template: Workflows/Pipelines/publish-frontend.yaml
+
+      - job: build_frontend_acc
+        displayName: Build frontend acceptance
+        dependsOn: build_and_publish
+        variables:
+          - template: Workflows/Variables/acc-variables.yaml
+        steps:
+          - template: Workflows/Pipelines/publish-frontend.yaml
+
+      - job: build_frontend_prd
+        displayName: Build frontend production
+        dependsOn: build_and_publish
+        variables:
+          - template: Workflows/Variables/prd-variables.yaml
+        steps:
+          - template: Workflows/Pipelines/publish-frontend.yaml
+
+  - stage: deploy_test
+    displayName: Deployment to Test
+    dependsOn:
+      - build_and_publish
+    jobs:
+      - template: Workflows/Pipelines/deploy-orchestrator.yaml
+        parameters:
+          buildConfiguration: ${{parameters.buildConfiguration}}
+          environmentName: "tst"
+          azureEnvironment: "Cost-Models-Test"
+          smokeOnly: false
+
+  - stage: deploy_accp
+    displayName: Deployment to Acceptance
+    dependsOn:
+      - deploy_test
+    jobs:
+      - template: Workflows/Pipelines/deploy-orchestrator.yaml
+        parameters:
+          buildConfiguration: ${{parameters.buildConfiguration}}
+          environmentName: "acc"
+          azureEnvironment: "Cost-Models-Acceptance"
+          smokeOnly: false
+
+  - stage: deploy_prod
+    displayName: Deployment to Production
+    dependsOn:
+      - deploy_accp
+    jobs:
+      - template: Workflows/Pipelines/deploy-orchestrator.yaml
+        parameters:
+          buildConfiguration: ${{parameters.buildConfiguration}}
+          environmentName: "prd"
+          azureEnvironment: "Cost-Models-Production"
+          smokeOnly: true

@@ -1,0 +1,30 @@
+parameters:
+  - name: resourceGroupName
+    type: string
+    default: "rg-weu-wa-cost-models-tst"
+
+  - name: subscriptionId
+    type: string
+    default: "e143dccb-ed11-479c-b391-c932752095be" # buy-tst-sub
+
+  - name: serviceConnection
+    type: string
+    default: "sc-buy-tst-sub"
+
+  - name: environment
+    type: string
+    default: "tst"
+
+steps:
+  - task: AzureResourceManagerTemplateDeployment@3
+    inputs:
+      deploymentScope: "Resource Group"
+      azureResourceManagerConnection: "${{ parameters.serviceConnection }}"
+      subscriptionId: "${{ parameters.subscriptionId }}"
+      action: "Create Or Update Resource Group"
+      resourceGroupName: "${{ parameters.resourceGroupName }}"
+      location: "westeurope"
+      templateLocation: "Linked artifact"
+      csmFile: "./Workflows/Bicep/main.bicep"
+      csmParametersFile: "./Workflows/Bicep/${{ parameters.environment }}.bicepparam"
+      deploymentMode: "Complete"

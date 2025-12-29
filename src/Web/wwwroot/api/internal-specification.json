@@ -1,0 +1,3772 @@
+{
+  "x-generator": "NSwag v14.6.1.0 (NJsonSchema v11.5.1.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SortedTunes Internal API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/Admin/RefreshElastic": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "RefreshElastic",
+        "parameters": [
+          {
+            "name": "resetIndex",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Admin/RefreshElasticLoggingIndices": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "RefreshElasticLoggingIndices",
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Admin/SetupElasticPipelines": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "SetupElasticPipelines",
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Admin/CreateTestProduct": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "CreateTestProduct",
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Admin/RefreshElasticProduct/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "RefreshElasticProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Admin/CultureCode": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "CultureCode",
+        "parameters": [
+          {
+            "name": "cultureCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/BuynamicsCultureCode"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuynamicsCultureCode"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Admin/Permissions": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "operationId": "Permissions",
+        "parameters": [
+          {
+            "name": "permissions",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Permissions"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Permissions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Freight/Lanes": {
+      "get": {
+        "tags": [
+          "Freight"
+        ],
+        "operationId": "GetFreightLanes",
+        "parameters": [
+          {
+            "name": "TransportMode",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/TransportMode"
+                }
+              ]
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfFreightLaneDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Freight/Suppliers": {
+      "post": {
+        "tags": [
+          "Freight"
+        ],
+        "operationId": "CreateSupplier",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSupplierCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Commodities": {
+      "get": {
+        "tags": [
+          "ProductCommodities"
+        ],
+        "operationId": "GetProductCommodities",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductCommodityDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductCommodities"
+        ],
+        "operationId": "CreateProductCommodity",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductCommodityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Commodities/{productCommodityId}/LatestPrice": {
+      "get": {
+        "tags": [
+          "ProductCommodities"
+        ],
+        "operationId": "GetLatestCommodityPrice",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productCommodityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "decimal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Commodities/{productCommodityId}": {
+      "put": {
+        "tags": [
+          "ProductCommodities"
+        ],
+        "operationId": "UpdateProductCommodity",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productCommodityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductCommodityCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductCommodities"
+        ],
+        "operationId": "DeleteProductCommodity",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productCommodityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Components": {
+      "get": {
+        "tags": [
+          "ProductComponents"
+        ],
+        "operationId": "GetProductComponents",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductComponentDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductComponents"
+        ],
+        "operationId": "CreateProductComponent",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductComponentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Components/{productComponentId}": {
+      "put": {
+        "tags": [
+          "ProductComponents"
+        ],
+        "operationId": "UpdateProductComponent",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productComponentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductComponentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductComponents"
+        ],
+        "operationId": "DeleteProductComponent",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productComponentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/FreightLanes": {
+      "get": {
+        "tags": [
+          "ProductFreightLanes"
+        ],
+        "operationId": "GetProductFreightLaneById",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "currencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductFreightLaneDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductFreightLanes"
+        ],
+        "operationId": "CreateProductFreightLane",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductFreightLaneCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/FreightLanes/{productFreightLaneId}": {
+      "put": {
+        "tags": [
+          "ProductFreightLanes"
+        ],
+        "operationId": "UpdateProductFreightLane",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productFreightLaneId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductFreightLaneCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductFreightLanes"
+        ],
+        "operationId": "DeleteProductFreightLane",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productFreightLaneId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/PurchasingPrices": {
+      "get": {
+        "tags": [
+          "ProductPurchasingPrices"
+        ],
+        "operationId": "GetProductPurchasingPrices",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductPurchasingPriceDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductPurchasingPrices"
+        ],
+        "operationId": "CreateProductPurchasingPrice",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddProductPurchasingPriceCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/PurchasingPrices/{productPurchasingPriceId}": {
+      "put": {
+        "tags": [
+          "ProductPurchasingPrices"
+        ],
+        "operationId": "UpdateProductPurchasingPrice",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productPurchasingPriceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductPurchasingPriceCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductPurchasingPrices"
+        ],
+        "operationId": "DeleteProductPurchasingPrice",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productPurchasingPriceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Results/DirectMaterials": {
+      "get": {
+        "tags": [
+          "ProductResults"
+        ],
+        "operationId": "GetDirectMaterialCosts",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DirectMaterialCostsDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Results/WhatsThePrice": {
+      "get": {
+        "tags": [
+          "ProductResults"
+        ],
+        "operationId": "GetWhatsThePrice",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Method",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PriceCalculationMethod"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhatsThePriceResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Results/PriceDiscipline": {
+      "get": {
+        "tags": [
+          "ProductResults"
+        ],
+        "operationId": "GetPriceDiscipline",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceDisciplineDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Results/ProductPurchasingPrices": {
+      "get": {
+        "tags": [
+          "ProductResults"
+        ],
+        "operationId": "GetProductResultPurchasingPrices",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurchasingPricePeriodDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{productId}/Results/LandedCosts": {
+      "get": {
+        "tags": [
+          "ProductResults"
+        ],
+        "operationId": "GetProductLandedCosts",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "FreightLaneCalculationMethod",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FreightLaneCalculationMethod"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LandedCostResultsDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "GetProductsWithPagination",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "UserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "ProductId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfProductDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "CreateProduct",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Products/{id}/MarkAsComplete": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "MarkAsComplete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "GetProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetailDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "UpdateProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "DeleteProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/ProductTags": {
+      "get": {
+        "tags": [
+          "ProductTags"
+        ],
+        "operationId": "GetProductTagsWithPagination",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfProductTagDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Search/Currencies": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "SearchCurrencies",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfCurrency"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Search/Industries": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "SearchIndustries",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "ShowOnlyCustom",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfIndustry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Search/Regions": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "SearchRegions",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfRegion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Search/Commodities": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "SearchCommodities",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "CategoryId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfCommodity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Search/Categories": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "GetCategories",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Search/Suppliers": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "SearchSuppliers",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfSupplier"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BuynamicsCultureCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "en_US",
+          "de_DE",
+          "fr_FR"
+        ],
+        "enum": [
+          "en_US",
+          "de_DE",
+          "fr_FR"
+        ]
+      },
+      "Permissions": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "ReadAuthentication",
+          "ReadUsers",
+          "WriteUsers",
+          "ReadCompanies",
+          "WriteCompanies",
+          "ReadTeams",
+          "WriteTeams",
+          "ReadTeamRoleAssignments",
+          "WriteTeamRoleAssignments",
+          "ReadApplications",
+          "WriteApplications",
+          "ReadCommodities",
+          "ReadCurrencies",
+          "ReadCostProfiles",
+          "WriteCustomCostProfiles",
+          "ReadCostProfileTemplates",
+          "WriteCostProfileTemplates",
+          "ReadWatchlists",
+          "WriteWatchlists",
+          "ReadFreight",
+          "WriteFreight",
+          "ReadSuppliers",
+          "WriteSuppliers",
+          "ReadCompanyAddresses",
+          "WriteCompanyAddresses",
+          "ReadProducts",
+          "WriteProducts",
+          "ReadPurchasingPrices",
+          "WritePurchasingPrices",
+          "ReadProductFreight",
+          "WriteProductFreight",
+          "WriteTranslations",
+          "DeleteTranslations",
+          "ReadMessages"
+        ],
+        "enum": [
+          "ReadAuthentication",
+          "ReadUsers",
+          "WriteUsers",
+          "ReadCompanies",
+          "WriteCompanies",
+          "ReadTeams",
+          "WriteTeams",
+          "ReadTeamRoleAssignments",
+          "WriteTeamRoleAssignments",
+          "ReadApplications",
+          "WriteApplications",
+          "ReadCommodities",
+          "ReadCurrencies",
+          "ReadCostProfiles",
+          "WriteCustomCostProfiles",
+          "ReadCostProfileTemplates",
+          "WriteCostProfileTemplates",
+          "ReadWatchlists",
+          "WriteWatchlists",
+          "ReadFreight",
+          "WriteFreight",
+          "ReadSuppliers",
+          "WriteSuppliers",
+          "ReadCompanyAddresses",
+          "WriteCompanyAddresses",
+          "ReadProducts",
+          "WriteProducts",
+          "ReadPurchasingPrices",
+          "WritePurchasingPrices",
+          "ReadProductFreight",
+          "WriteProductFreight",
+          "WriteTranslations",
+          "DeleteTranslations",
+          "ReadMessages"
+        ]
+      },
+      "PaginatedListOfFreightLaneDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FreightLaneDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FreightLaneDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/TransportMode"
+          },
+          "origin": {
+            "$ref": "#/components/schemas/FreightAddressDto"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/FreightAddressDto"
+          },
+          "shipment": {
+            "$ref": "#/components/schemas/Shipment"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/Pricing"
+          },
+          "confidenceIndex": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "values": {
+            "$ref": "#/components/schemas/FreightLanePriceDto"
+          },
+          "isFullTruck": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "TransportMode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "RoadEMEA",
+          "Air",
+          "Sea",
+          "RoadNA"
+        ],
+        "enum": [
+          "RoadEMEA",
+          "Air",
+          "Sea",
+          "RoadNA"
+        ]
+      },
+      "FreightAddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "mainText": {
+            "type": "string"
+          },
+          "secondaryText": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Shipment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hazardous": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "industry": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FreightIndustry"
+              }
+            ]
+          },
+          "reefer": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "weight": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Weight"
+              }
+            ]
+          },
+          "container": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Container"
+              }
+            ]
+          },
+          "goodsType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GoodsType"
+              }
+            ]
+          },
+          "truckType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TruckType"
+              }
+            ]
+          },
+          "volume": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Volume"
+              }
+            ]
+          }
+        }
+      },
+      "FreightIndustry": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "all",
+          "electronics",
+          "luxury",
+          "automotive",
+          "food",
+          "pharmaceutical",
+          "high_tech"
+        ],
+        "enum": [
+          "all",
+          "electronics",
+          "luxury",
+          "automotive",
+          "food",
+          "pharmaceutical",
+          "high_tech"
+        ]
+      },
+      "Weight": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/WeightUnit"
+          },
+          "value": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "WeightUnit": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "kg",
+          "lbs"
+        ],
+        "enum": [
+          "kg",
+          "lbs"
+        ]
+      },
+      "Container": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unit": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GoodsType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "GEN",
+          "REF",
+          "BUL",
+          "FOO",
+          "LIQ",
+          "ROL"
+        ],
+        "enum": [
+          "GEN",
+          "REF",
+          "BUL",
+          "FOO",
+          "LIQ",
+          "ROL"
+        ]
+      },
+      "TruckType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "DRY",
+          "REEFER",
+          "TRL",
+          "FBD",
+          "CON",
+          "CIT",
+          "BEN"
+        ],
+        "enum": [
+          "DRY",
+          "REEFER",
+          "TRL",
+          "FBD",
+          "CON",
+          "CIT",
+          "BEN"
+        ]
+      },
+      "Volume": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "unit": {
+            "$ref": "#/components/schemas/VolumeUnit"
+          },
+          "value": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "VolumeUnit": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "loading_meters",
+          "cubic_meters",
+          "pallets"
+        ],
+        "enum": [
+          "loading_meters",
+          "cubic_meters",
+          "pallets"
+        ]
+      },
+      "Pricing": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "customsIncluded": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "serviceLevel": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ServiceLevel"
+              }
+            ]
+          },
+          "serviceType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ServiceType"
+              }
+            ]
+          },
+          "thc": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TerminalHandlingCharges"
+              }
+            ]
+          },
+          "fuelSurchargeIncluded": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "market": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MarketType"
+              }
+            ]
+          }
+        }
+      },
+      "ServiceLevel": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "standard",
+          "express"
+        ],
+        "enum": [
+          "standard",
+          "express"
+        ]
+      },
+      "ServiceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "ptp",
+          "dtp",
+          "ptd",
+          "dtd",
+          "ata",
+          "dta",
+          "atd"
+        ],
+        "enum": [
+          "ptp",
+          "dtp",
+          "ptd",
+          "dtd",
+          "ata",
+          "dta",
+          "atd"
+        ]
+      },
+      "TerminalHandlingCharges": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "origin": {
+            "type": "boolean"
+          },
+          "destination": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MarketType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Spot",
+          "Contract"
+        ],
+        "enum": [
+          "Spot",
+          "Contract"
+        ]
+      },
+      "FreightLanePriceDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "min": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "low": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "median": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "high": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "max": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "CreateSupplierCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductCommodityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "productCommodityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "waste": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changeByAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changeByPercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "weightUnit": {
+            "$ref": "#/components/schemas/WeightUnits"
+          },
+          "totalWeight": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "weightComposition": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "commodityRegion": {
+            "$ref": "#/components/schemas/CommodityRegion"
+          }
+        }
+      },
+      "WeightUnits": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "G",
+          "KG",
+          "LBS",
+          "ST",
+          "OZ"
+        ],
+        "enum": [
+          "G",
+          "KG",
+          "LBS",
+          "ST",
+          "OZ"
+        ]
+      },
+      "CommodityRegion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "commodityRegionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commodityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "region": {
+            "$ref": "#/components/schemas/Region"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Region": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AddProductCommodityCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductCommodityCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "BaseProductCommodityCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAdjustableCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "quantity": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "commodityRegionId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "weightUnit": {
+                "$ref": "#/components/schemas/WeightUnits"
+              }
+            }
+          }
+        ]
+      },
+      "BaseAdjustableCommand": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "changeByAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changeByPercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "waste": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "UpdateProductCommodityCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductCommodityCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productCommodityId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "ProductComponentDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "productComponentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "multiplier": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "waste": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changeByAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changeByPercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "name": {
+            "type": "string"
+          },
+          "weightUnit": {
+            "$ref": "#/components/schemas/WeightUnits"
+          },
+          "componentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalWeight": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "weightComposition": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "netWeight": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "AddProductComponentCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductComponentCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "componentId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "BaseProductComponentCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseAdjustableCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "multiplier": {
+                "type": "number",
+                "format": "decimal"
+              }
+            }
+          }
+        ]
+      },
+      "UpdateProductComponentCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductComponentCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productComponentId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "ProductFreightLaneDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "freightLane": {
+            "$ref": "#/components/schemas/FreightLaneDto"
+          },
+          "numberOfUnits": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AddProductFreightLaneCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductFreightLaneCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "BaseProductFreightLaneCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "freightLaneId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfUnits": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UpdateProductFreightLaneCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductFreightLaneCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productFreightLaneId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "ProductPurchasingPriceDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AddProductPurchasingPriceCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductPurchasingPriceCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "BaseProductPurchasingPriceCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "price": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "date": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "UpdateProductPurchasingPriceCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductPurchasingPriceCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productPurchasingPriceId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "DirectMaterialCostsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currencyCode": {
+            "type": "string"
+          },
+          "start": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "end": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "average": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "change": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changePercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Material"
+            }
+          }
+        }
+      },
+      "Material": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "regionName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "pricePeriod": {
+            "$ref": "#/components/schemas/PricePeriod"
+          },
+          "changeByAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changeByPercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "weightUnit": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/WeightUnits"
+              }
+            ]
+          }
+        }
+      },
+      "PricePeriod": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "start": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "end": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "average": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "change": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "changePercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MonthPrice"
+            }
+          },
+          "isEmpty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MonthPrice": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "month": {
+            "type": "string",
+            "description": "Month in YYYY-MM format",
+            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+            "example": "2025-11"
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "WhatsThePriceResultDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currencyCode": {
+            "type": "string"
+          },
+          "costComponents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CostComponentDto"
+            }
+          }
+        }
+      },
+      "CostComponentDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "percentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "isMaterial": {
+            "type": "boolean"
+          },
+          "purchasingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "priceVariance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "children": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CostComponentDto"
+            }
+          }
+        }
+      },
+      "PriceCalculationMethod": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Latest",
+          "Average",
+          "Highest",
+          "Lowest"
+        ],
+        "enum": [
+          "Latest",
+          "Average",
+          "Highest",
+          "Lowest"
+        ]
+      },
+      "PriceDisciplineDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PricePeriod"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "productId": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "currencyCode": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "PurchasingPricePeriodDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/PricePeriod"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "currencyCode": {
+                "type": "string"
+              },
+              "productId": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "LandedCostResultsDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WhatsThePriceResultDto"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "totalShipment": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "shippingCostPerUnit": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "landedCostPerUnit": {
+                "type": "number",
+                "format": "decimal"
+              }
+            }
+          }
+        ]
+      },
+      "FreightLaneCalculationMethod": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Min",
+          "Low",
+          "Median",
+          "High",
+          "Max"
+        ],
+        "enum": [
+          "Min",
+          "Low",
+          "Median",
+          "High",
+          "Max"
+        ]
+      },
+      "PaginatedListOfProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isComplete": {
+            "type": "boolean"
+          },
+          "currencyCode": {
+            "type": "string"
+          },
+          "weightUnit": {
+            "$ref": "#/components/schemas/WeightUnits"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ProductMetadataDto"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "numberOfComponents": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ProductMetadataDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "artNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "artNrSupplier": {
+            "type": "string",
+            "nullable": true
+          },
+          "eanNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateProductCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "currencyCode": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BaseProductCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "industryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "supplierId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ProductMetadata"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "weightUnit": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/WeightUnits"
+              }
+            ]
+          }
+        }
+      },
+      "ProductMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "artNr": {
+            "type": "string",
+            "nullable": true
+          },
+          "artNrSupplier": {
+            "type": "string",
+            "nullable": true
+          },
+          "eanNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitOfMeasure": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ProductDetailDto": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ProductDto"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "netWeight": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "waste": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "totalWeight": {
+                "type": "number",
+                "format": "decimal"
+              },
+              "hasFreightLane": {
+                "type": "boolean"
+              },
+              "industry": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Industry"
+                  }
+                ]
+              },
+              "region": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Region"
+                  }
+                ]
+              },
+              "supplier": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Supplier"
+                  }
+                ]
+              },
+              "currency": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Currency"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "Industry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isStandardIndustry": {
+            "type": "boolean"
+          },
+          "classifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IndustryClassification"
+            }
+          },
+          "regions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IndustryRegion"
+            }
+          }
+        }
+      },
+      "IndustryClassification": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "IndustryRegion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Supplier": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Currency": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateProductCommand": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseProductCommand"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "currencyCode": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "PaginatedListOfProductTagDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductTagDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductTagDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "PaginatedListOfCurrency": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Currency"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginatedListOfIndustry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Industry"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginatedListOfRegion": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Region"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginatedListOfCommodity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Commodity"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Commodity": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "abbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "wikipediaLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "regions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommodityRegion"
+            }
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "subCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          }
+        }
+      },
+      "PaginatedListOfSupplier": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Supplier"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWT": {
+        "type": "apiKey",
+        "description": "Type into the textbox: Bearer {your JWT token}.",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "JWT": []
+    }
+  ]
+}
