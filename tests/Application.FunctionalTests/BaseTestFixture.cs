@@ -12,6 +12,6 @@ public abstract class BaseTestFixture
     {
         TimeProviderInstance = new FakeTimeProvider();
         await ResetState();
-        AuthTesting.ResetState();
+        //AuthTesting.ResetState();
     }
 }

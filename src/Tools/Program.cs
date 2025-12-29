@@ -46,7 +46,7 @@ static async Task<int> CommandRouter(IHost host, string[] args)
     // Find the command from arguments
     var command = args.FirstOrDefault(a => a.StartsWith("refresh", StringComparison.OrdinalIgnoreCase))?.ToLowerInvariant();
     var resetIndex = args.Any(a => string.Equals(a, "resetIndex", StringComparison.OrdinalIgnoreCase));
-    string sender = "Tools";
+    //string sender = "Tools";
 
     return command switch
     {

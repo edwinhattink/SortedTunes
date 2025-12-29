@@ -1,7 +1,5 @@
 ﻿using System.Data.Common;
 using System.Reflection;
-using Buynamics.Toolkit.Security.Interfaces;
-using SortedTunes.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -9,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SortedTunes.Infrastructure.Data;
 
 namespace SortedTunes.Application.FunctionalTests;
 
@@ -21,8 +20,8 @@ public class CustomWebApplicationFactory(
     {
         builder.ConfigureTestServices(services =>
         {
-            services.RemoveAll<ICurrentUserService>()
-                .AddTransient<ICurrentUserService, CurrentUserService>();
+            //services.RemoveAll<ICurrentUserService>()
+            //    .AddTransient<ICurrentUserService, CurrentUserService>();
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 

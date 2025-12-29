@@ -1,37 +1,9 @@
 # SortedTunes
 
-This project is a service for What's The Price. The project is intended for users to manage cost models. The API is secured with OAuth2.0 protocols. (Client Credentials Flow)
-
-## Support
-
-The template is never perfect or complete. So let's keep developing to ensure the highest project standards within Buynamics. Changes or additions can be submitted through pull requests.
-
-## Contribute
-
-Contribution to this project is expected according to the following [standards](https://dev.azure.com/buynamics2/Whats%20The%20Price/_wiki/wikis/Whats-The-Price.wiki/17/Code-conventions).
-
-## Confidentiality
-
-The template is intended for **internal** use only!
-
-## Starting up
-
-In the folder `src/Web/ClientAppCostModels` you have to run the command `npm install`.
-
 ## Migrations
 
 1. Install Entity Framework Core tools by following this tutorial: [Install Entity Framework Core Tools Guide](https://docs.microsoft.com/nl-nl/ef/core/cli/dotnet).
-2. Add _Persistence/Migrations_ folder to the _Infrastructure_ project.
-3. Edit the project file and remove _<PrivateAssets>all</PrivateAssets>_ from the Microsoft.EntityFrameworkCore.Design configuration.
-
-```
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
-  </ItemGroup>
-```
+2. Add _Data/Migrations_ folder to the _Infrastructure_ project.
 
 4. Run the following command to create an initial migration:
 

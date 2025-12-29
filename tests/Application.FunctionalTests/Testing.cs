@@ -1,19 +1,12 @@
 using System.Linq.Expressions;
 using System.Text.Json;
-using Buynamics.Toolkit.Elasticsearch.Interfaces.Data;
-using Buynamics.Toolkit.Elasticsearch.Interfaces.Freight;
-using Buynamics.Toolkit.Elasticsearch.Interfaces.Identity;
-using SortedTunes.Application.Common.Exceptions;
-using SortedTunes.Application.Elasticsearch.Interfaces;
-using SortedTunes.Application.Freight.Interfaces;
-using SortedTunes.Application.Messaging.Interfaces;
-using SortedTunes.Application.ProductResults.Interfaces;
-using SortedTunes.Domain.Common;
-using SortedTunes.Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
+using SortedTunes.Application.Common.Exceptions;
+using SortedTunes.Domain.Common;
+using SortedTunes.Infrastructure.Data;
 
 namespace SortedTunes.Application.FunctionalTests;
 
@@ -37,51 +30,6 @@ public partial class Testing
         s_factory = new CustomWebApplicationFactory(
             services =>
             {
-                // Elasticsearch Services
-                services.Remove<IElasticsearchProductsService>()
-                    .AddTransient(provider => fixture.Create<IElasticsearchProductsService>());
-                services.Remove<IElasticsearchProductTagsService>()
-                    .AddTransient(provider => fixture.Create<IElasticsearchProductTagsService>());
-                services.Remove<IElasticsearchLoggingService>()
-                    .AddTransient(provider => fixture.Create<IElasticsearchLoggingService>());
-                services.Remove<ISearchIndustriesService>()
-                    .AddTransient(provider => fixture.Create<ISearchIndustriesService>());
-                services.Remove<ISearchRegionsService>()
-                    .AddTransient(provider => fixture.Create<ISearchRegionsService>());
-                services.Remove<ISearchCostProfilesService>()
-                    .AddTransient(provider => fixture.Create<ISearchCostProfilesService>());
-                services.Remove<ISearchCategoriesService>()
-                  .AddTransient(provider => fixture.Create<ISearchCategoriesService>());
-                services.Remove<ISearchSuppliersService>()
-                  .AddTransient(provider => fixture.Create<ISearchSuppliersService>());
-                services.Remove<ISearchUsersService>()
-                    .AddTransient(provider => fixture.Create<ISearchUsersService>());
-
-                //Toolkit ES services
-                services.Remove<ISearchCommoditiesService>()
-                    .AddTransient(provider => fixture.Create<ISearchCommoditiesService>());
-                services.Remove<ISearchCommodityRegionPricesService>()
-                    .AddTransient(provider => fixture.Create<ISearchCommodityRegionPricesService>());
-                services.Remove<ISearchCurrencyRatesService>()
-                    .AddTransient(provider => fixture.Create<ISearchCurrencyRatesService>());
-                services.Remove<ISearchCurrenciesService>()
-                    .AddTransient(provider => fixture.Create<ISearchCurrenciesService>());
-                services.Remove<ISearchFreightLanesService>()
-                   .AddTransient(provider => fixture.Create<ISearchFreightLanesService>());
-                services.Remove<ISearchFreightLanePricesService>()
-                     .AddTransient(provider => fixture.Create<ISearchFreightLanePricesService>());
-
-                // External freight services
-                services.Remove<ISuppliersService>()
-                    .AddTransient(provider => fixture.Create<ISuppliersService>());
-
-                services.Remove<ICostProfileService>()
-                    .AddTransient(provider => fixture.Create<ICostProfileService>());
-
-                // Messaging
-                services.Remove<IMessagingService>()
-                    .AddTransient(provider => fixture.Create<IMessagingService>());
-
                 TimeProviderInstance = new FakeTimeProvider();
                 services.Remove<TimeProvider>().AddTransient<TimeProvider>(sp => TimeProviderInstance);
             },
