@@ -44,10 +44,6 @@ pwsh bin/Debug/net9.0/playwright.ps1 install
 
 If `pwsh` is not available, you have to [install PowerShell](https://learn.microsoft.com/nl-nl/powershell/scripting/install/installing-powershell-on-windows) with winget 4. Now you can open the seperate solution `Web.AcceptanceTests` and run the tests. Note: you have to be running the other solution aswell on your machine. The URL the acceptance tests use is defined in `appsettings.json`.`
 
-### SpecFlow extensions
-
-Install the "SpecFlow for Visual Studio 2022" on your Visual Studio.
-
 ### Codegen for Playwright
 
 Run the following command in the acceptance tests folder to start up codegen windows of Playwright. Make sure you've run the tests once, so you have the jsons for userstates!
