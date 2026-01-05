@@ -21,25 +21,22 @@ public class CreateArtistCommandTests : BaseTestFixture
         // assert
         var artist = await FindAsync<Artist>(artistId);
 
-        artist.Should().NotBeNull();
-        artist!.Name.Should().Be(command.Name);
+        Assert.That(artist, Is.Not.Null);
+        Assert.That(artist!.Name, Is.EqualTo(command.Name));
     }
 
     [Test]
-    public async Task ShouldRequireName()
+    public void ShouldRequireName()
     {
         // arrange
         var command = new CreateArtistCommand() { Name = "" };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
-    public async Task ShouldFailWhenNameIsTooLong()
+    public void ShouldFailWhenNameIsTooLong()
     {
         // arrange
         var command = new CreateArtistCommand
@@ -47,11 +44,8 @@ public class CreateArtistCommandTests : BaseTestFixture
             Name = new string('A', 201) // 201 characters long
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -66,11 +60,8 @@ public class CreateArtistCommandTests : BaseTestFixture
             Name = "Existing Artist"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("Name", "Name must be unique.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Name must be unique."));
     }
 }

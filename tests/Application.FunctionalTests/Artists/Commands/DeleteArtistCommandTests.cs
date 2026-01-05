@@ -20,20 +20,17 @@ public class DeleteArtistCommandTests : BaseTestFixture
 
         // assert
         var deletedArtist = await FindAsync<Artist>(artist.Id);
-        deletedArtist.Should().BeNull();
+        Assert.That(deletedArtist, Is.Null);
     }
 
     [Test]
-    public async Task ShouldFailWhenArtistNotFound()
+    public void ShouldFailWhenArtistNotFound()
     {
         // arrange
         var command = new DeleteArtistCommand(999); // Non-existent artist ID
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        // act & assert
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -48,9 +45,7 @@ public class DeleteArtistCommandTests : BaseTestFixture
         // act
         await SendAsync(command); // First deletion
 
-        Func<Task> action = async () => await SendAsync(command); // Second deletion attempt
-
         // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command)); // Second deletion attempt
     }
 }

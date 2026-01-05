@@ -20,20 +20,17 @@ public class DeleteGenreCommandTests : BaseTestFixture
 
         // assert
         var deletedGenre = await FindAsync<Genre>(genre.Id);
-        deletedGenre.Should().BeNull();
+        Assert.That(deletedGenre, Is.Null);
     }
 
     [Test]
-    public async Task ShouldFailWhenGenreNotFound()
+    public void ShouldFailWhenGenreNotFound()
     {
         // arrange
         var command = new DeleteGenreCommand(999); // Non-existent genre ID
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        // act & assert
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -48,9 +45,7 @@ public class DeleteGenreCommandTests : BaseTestFixture
         // act
         await SendAsync(command); // First deletion
 
-        Func<Task> action = async () => await SendAsync(command); // Second deletion attempt
-
         // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command)); // Second deletion attempt
     }
 }

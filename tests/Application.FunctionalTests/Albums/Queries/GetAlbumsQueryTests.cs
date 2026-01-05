@@ -28,7 +28,7 @@ public class GetAlbumsQueryTests : BaseTestFixture
         var result = await SendAsync(query);
 
         // assert
-        result.TotalCount.Should().Be(20);
-        result.Items.Should().HaveCount(10);
+        Assert.That(result.TotalCount, Is.EqualTo(20));
+        Assert.That(result.Items, Has.Count.EqualTo(10));
     }
 }

@@ -25,8 +25,8 @@ public class UpdateArtistCommandTests : BaseTestFixture
         // assert
         var updatedArtist = await FindAsync<Artist>(artist.Id);
 
-        updatedArtist.Should().NotBeNull();
-        updatedArtist!.Name.Should().Be(command.Name);
+        Assert.That(updatedArtist, Is.Not.Null);
+        Assert.That(updatedArtist!.Name, Is.EqualTo(command.Name));
     }
 
     [Test]
@@ -42,11 +42,8 @@ public class UpdateArtistCommandTests : BaseTestFixture
             Name = ""
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -62,11 +59,8 @@ public class UpdateArtistCommandTests : BaseTestFixture
             Name = new string('A', 201) // 201 characters long
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -84,16 +78,13 @@ public class UpdateArtistCommandTests : BaseTestFixture
             Name = "Artist 2"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("Name", "Name must be unique.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Name must be unique."));
     }
 
     [Test]
-    public async Task ShouldFailWhenArtistNotFound()
+    public void ShouldFailWhenArtistNotFound()
     {
         // arrange
         var command = new UpdateArtistCommand
@@ -102,10 +93,7 @@ public class UpdateArtistCommandTests : BaseTestFixture
             Name = "New Name"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        // act & assert
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command));
     }
 }

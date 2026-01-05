@@ -25,8 +25,8 @@ public class UpdateAlbumCommandTests : BaseTestFixture
         // assert
         var updatedAlbum = await FindAsync<Album>(album.Id);
 
-        updatedAlbum.Should().NotBeNull();
-        updatedAlbum!.Title.Should().Be(command.Title);
+        Assert.That(updatedAlbum, Is.Not.Null);
+        Assert.That(updatedAlbum!.Title, Is.EqualTo(command.Title));
     }
 
     [Test]
@@ -42,11 +42,8 @@ public class UpdateAlbumCommandTests : BaseTestFixture
             Title = ""
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -62,11 +59,8 @@ public class UpdateAlbumCommandTests : BaseTestFixture
             Title = new string('A', 201) // 201 characters long
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -84,16 +78,13 @@ public class UpdateAlbumCommandTests : BaseTestFixture
             Title = "Album 2"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("Title", "Title must be unique.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Title must be unique."));
     }
 
     [Test]
-    public async Task ShouldFailWhenAlbumNotFound()
+    public void ShouldFailWhenAlbumNotFound()
     {
         // arrange
         var command = new UpdateAlbumCommand
@@ -102,10 +93,7 @@ public class UpdateAlbumCommandTests : BaseTestFixture
             Title = "New Title"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        // act & assert
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command));
     }
 }

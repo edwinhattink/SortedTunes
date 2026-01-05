@@ -6,3 +6,5 @@ global using SortedTunes.Application.SpecimenBuilders;
 global using SortedTunes.Domain.Entities;
 global using NSubstitute;
 global using NUnit.Framework;
+global using SortedTunes.Application.Common.Exceptions;
+

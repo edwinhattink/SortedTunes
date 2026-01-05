@@ -30,12 +30,12 @@ public class CreateTrackCommandTests : BaseTestFixture
         // assert
         var track = await FindAsync<Track>(trackId);
 
-        track.Should().NotBeNull();
-        track!.Title.Should().Be(command.Title);
-        track.Number.Should().Be(command.Number);
-        track.FileName.Should().Be(command.FileName);
-        track.DiscId.Should().Be(command.DiscId);
-        track.GenreId.Should().Be(command.GenreId);
+        Assert.That(track, Is.Not.Null);
+        Assert.That(track!.Title, Is.EqualTo(command.Title));
+        Assert.That(track.Number, Is.EqualTo(command.Number));
+        Assert.That(track.FileName, Is.EqualTo(command.FileName));
+        Assert.That(track.DiscId, Is.EqualTo(command.DiscId));
+        Assert.That(track.GenreId, Is.EqualTo(command.GenreId));
     }
 
     [Test]
@@ -56,12 +56,9 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("Track title must not exceed 200 characters.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Track title must not exceed 200 characters."));
     }
 
     [Test]
@@ -82,12 +79,9 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("Track title must not exceed 200 characters.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Track title must not exceed 200 characters."));
     }
 
     [Test]
@@ -108,12 +102,9 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("File name must not exceed 200 characters.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("File name must not exceed 200 characters."));
     }
 
     [Test]
@@ -132,12 +123,9 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("DiscId", "Disc with Id '999' does not exist.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Disc with Id '999' does not exist."));
     }
 
     [Test]
@@ -156,12 +144,9 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = 999 // Non-existent genre ID
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("GenreId", "Genre with Id '999' does not exist.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Genre with Id '999' does not exist."));
     }
 
     [Test]
@@ -182,11 +167,8 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("Track number must be at least 1.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Track number must be at least 1."));
     }
 }
