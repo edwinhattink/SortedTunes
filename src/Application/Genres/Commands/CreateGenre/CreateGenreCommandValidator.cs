@@ -12,8 +12,9 @@ public class CreateGenreCommandValidator : AbstractValidator<CreateGenreCommand>
 
         RuleFor(v => v.Name)
             .NotEmpty()
+                .WithMessage("{PropertyName} must not be empty.")
             .MaximumLength(200)
-            .WithMessage("Genre name must not exceed 200 characters.");
+                .WithMessage("Genre name must not exceed 200 characters.");
 
         RuleFor(v => v.ParentGenreId)
             .MustAsync(ExistGenre)

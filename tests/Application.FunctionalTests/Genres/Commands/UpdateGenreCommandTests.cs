@@ -72,7 +72,8 @@ public class UpdateGenreCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("'Name' must not be empty."));
+        Assert.That(ex.Errors, Does.ContainKey("Name"));
+        Assert.That(ex.Errors["Name"].Any(e => e.Error == "Name must not be empty."));
     }
 
     [Test]
@@ -90,7 +91,8 @@ public class UpdateGenreCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Genre name must not exceed 200 characters."));
+        Assert.That(ex.Errors, Does.ContainKey("Name"));
+        Assert.That(ex.Errors["Name"].Any(e => e.Error == "Genre name must not exceed 200 characters."));
     }
 
     [Test]
@@ -109,7 +111,8 @@ public class UpdateGenreCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Parent genre with Id '999' does not exist."));
+        Assert.That(ex.Errors, Does.ContainKey("ParentGenreId"));
+        Assert.That(ex.Errors["ParentGenreId"].Any(e => e.Error == "Parent genre with Id '999' does not exist."));
     }
 
     [Test]

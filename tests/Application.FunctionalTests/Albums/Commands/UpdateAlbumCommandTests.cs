@@ -80,7 +80,8 @@ public class UpdateAlbumCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Title must be unique."));
+        Assert.That(ex.Errors, Does.ContainKey("Title"));
+        Assert.That(ex.Errors["Title"].Any(e => e.Error == "Title must be unique."));
     }
 
     [Test]

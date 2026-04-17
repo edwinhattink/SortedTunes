@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
-using SortedTunes.Application.Common.Exceptions;
 using SortedTunes.Domain.Common;
 using SortedTunes.Infrastructure.Data;
 
@@ -125,7 +124,6 @@ public partial class Testing
 
         return entity;
     }
-
 
     public static async Task<IEnumerable<TEntity>> QueryAsync<TEntity>(Expression<Func<TEntity, bool>> expression)
         where TEntity : class

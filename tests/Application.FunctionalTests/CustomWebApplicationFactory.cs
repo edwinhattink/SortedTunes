@@ -34,6 +34,6 @@ public class CustomWebApplicationFactory(
                 });
         });
 
-        builder.ConfigureServices(services => serviceCollection.Invoke(services));
+        builder.ConfigureServices(serviceCollection.Invoke);
     }
 }

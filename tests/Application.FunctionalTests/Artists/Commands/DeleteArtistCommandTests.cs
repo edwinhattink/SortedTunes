@@ -19,8 +19,7 @@ public class DeleteArtistCommandTests : BaseTestFixture
         await SendAsync(command);
 
         // assert
-        var deletedArtist = await FindAsync<Artist>(artist.Id);
-        Assert.That(deletedArtist, Is.Null);
+        Assert.ThrowsAsync<ArgumentNullException>(async () => await FindAsync<Artist>(artist.Id));
     }
 
     [Test]

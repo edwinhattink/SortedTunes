@@ -12,6 +12,7 @@ public class CreateAlbumCommandValidator : AbstractValidator<CreateAlbumCommand>
 
         RuleFor(v => v.Title)
             .NotEmpty()
+                .WithMessage("{PropertyName} must not be empty.")
             .MaximumLength(200)
             .MustAsync(BeUniqueTitle)
                 .WithMessage("{PropertyName} must be unique.")

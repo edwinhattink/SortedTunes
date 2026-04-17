@@ -19,8 +19,7 @@ public class DeleteGenreCommandTests : BaseTestFixture
         await SendAsync(command);
 
         // assert
-        var deletedGenre = await FindAsync<Genre>(genre.Id);
-        Assert.That(deletedGenre, Is.Null);
+        Assert.ThrowsAsync<ArgumentNullException>(async () => await FindAsync<Genre>(genre.Id));
     }
 
     [Test]

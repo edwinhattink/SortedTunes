@@ -1,16 +1,16 @@
 ﻿using System.Data.Common;
-using SortedTunes.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Respawn;
+using SortedTunes.Infrastructure.Data;
 
 namespace SortedTunes.Application.FunctionalTests;
 
 public class SqlTestDatabase : ITestDatabase
 {
-    private readonly string _connectionString = null!;
+    private readonly string _connectionString;
     private SqlConnection _connection = null!;
     private Respawner _respawner = null!;
 
@@ -42,7 +42,7 @@ public class SqlTestDatabase : ITestDatabase
         await context.Database.EnsureDeletedAsync();
         await context.Database.MigrateAsync();
 
-        _respawner = await Respawner.CreateAsync(_connectionString, new RespawnerOptions
+        _respawner = await Respawner.CreateAsync(_connection, new RespawnerOptions
         {
             TablesToIgnore = ["__EFMigrationsHistory"]
         });
@@ -53,14 +53,9 @@ public class SqlTestDatabase : ITestDatabase
         return _connection;
     }
 
-    public string GetConnectionString()
-    {
-        return _connectionString;
-    }
-
     public async Task ResetAsync()
     {
-        await _respawner.ResetAsync(_connectionString);
+        await _respawner.ResetAsync(_connection);
     }
 
     public async Task DisposeAsync()

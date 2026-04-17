@@ -12,6 +12,7 @@ public class CreateArtistCommandValidator : AbstractValidator<CreateArtistComman
 
         RuleFor(v => v.Name)
             .NotEmpty()
+                .WithMessage("{PropertyName} must not be empty.")
             .MaximumLength(200)
             .MustAsync(BeUniqueName)
                 .WithMessage("{PropertyName} must be unique.")
