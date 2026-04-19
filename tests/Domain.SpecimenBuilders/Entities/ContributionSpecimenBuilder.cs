@@ -10,10 +10,8 @@ public class ContributionSpecimenBuilder : ISpecimenBuilder
         {
             return new Contribution()
             {
-                TrackId = context.Create<int>(),
-                Track = null,
-                ArtistId = context.Create<int>(),
-                Artist = null,
+                Track = context.Create<Track>(),
+                Artist = context.Create<Artist>(),
                 ContributionType = context.Create<ContributionType>()
             };
         }

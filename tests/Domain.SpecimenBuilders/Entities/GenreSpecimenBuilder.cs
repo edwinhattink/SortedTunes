@@ -9,10 +9,8 @@ public class GenreSpecimenBuilder : ISpecimenBuilder
             return new Genre()
             {
                 Name = context.Create<string>(),
-                ParentGenreId = null,
-                ParentGenre = null,
-                Tracks = new List<Track>(),
-                Genres = new List<Genre>()
+                Tracks = [],
+                Genres = []
             };
         }
 

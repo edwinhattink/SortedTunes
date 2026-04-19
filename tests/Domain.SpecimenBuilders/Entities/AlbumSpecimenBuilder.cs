@@ -11,7 +11,7 @@ public class AlbumSpecimenBuilder : ISpecimenBuilder
                 Title = context.Create<string>(),
                 ReleaseYear = context.CreateInt(1900, 2024),
                 Image = context.Create<string>(),
-                Discs = new List<Disc>()
+                Discs = []
             };
         }
 

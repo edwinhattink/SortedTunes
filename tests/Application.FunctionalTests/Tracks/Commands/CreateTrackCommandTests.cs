@@ -6,12 +6,10 @@ using static Testing;
 
 public class CreateTrackCommandTests : BaseTestFixture
 {
-    [Test]
-    public async Task ShouldCreateTrack()
+    [Test, ApplicationAutoData]
+    public async Task ShouldCreateTrack(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -31,19 +29,20 @@ public class CreateTrackCommandTests : BaseTestFixture
         var track = await FindAsync<Track>(trackId);
 
         Assert.That(track, Is.Not.Null);
-        Assert.That(track!.Title, Is.EqualTo(command.Title));
-        Assert.That(track.Number, Is.EqualTo(command.Number));
-        Assert.That(track.FileName, Is.EqualTo(command.FileName));
-        Assert.That(track.DiscId, Is.EqualTo(command.DiscId));
-        Assert.That(track.GenreId, Is.EqualTo(command.GenreId));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(track!.Title, Is.EqualTo(command.Title));
+            Assert.That(track.Number, Is.EqualTo(command.Number));
+            Assert.That(track.FileName, Is.EqualTo(command.FileName));
+            Assert.That(track.DiscId, Is.EqualTo(command.DiscId));
+            Assert.That(track.GenreId, Is.EqualTo(command.GenreId));
+        }
     }
 
-    [Test]
-    public async Task ShouldRequireTitle()
+    [Test, ApplicationAutoData]
+    public async Task ShouldRequireTitle(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -61,12 +60,10 @@ public class CreateTrackCommandTests : BaseTestFixture
         Assert.That(ex?.Message, Does.Contain("Track title must not exceed 200 characters."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenTitleIsTooLong()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenTitleIsTooLong(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -84,12 +81,10 @@ public class CreateTrackCommandTests : BaseTestFixture
         Assert.That(ex?.Message, Does.Contain("Track title must not exceed 200 characters."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenFileNameIsTooLong()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenFileNameIsTooLong(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -107,11 +102,10 @@ public class CreateTrackCommandTests : BaseTestFixture
         Assert.That(ex?.Message, Does.Contain("File name must not exceed 200 characters."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenDiscDoesNotExist()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenDiscDoesNotExist(Genre genre)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
         await AddAsync(genre);
 
         var command = new CreateTrackCommand
@@ -128,13 +122,11 @@ public class CreateTrackCommandTests : BaseTestFixture
         Assert.That(ex?.Message, Does.Contain("Disc with Id '999' does not exist."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenGenreDoesNotExist()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenGenreDoesNotExist(Disc disc)
     {
         // arrange
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(disc);
-
         var command = new CreateTrackCommand
         {
             Number = 1,
@@ -149,12 +141,10 @@ public class CreateTrackCommandTests : BaseTestFixture
         Assert.That(ex?.Message, Does.Contain("Genre with Id '999' does not exist."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenNumberIsLessThanOne()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenNumberIsLessThanOne(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 

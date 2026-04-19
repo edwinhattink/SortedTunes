@@ -73,7 +73,10 @@ public class UpdateGenreCommandTests : BaseTestFixture
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
         Assert.That(ex.Errors, Does.ContainKey("Name"));
-        Assert.That(ex.Errors["Name"].Any(e => e.Error == "Name must not be empty."));
+        Assert.That(ex.Errors["Name"].Any(e =>
+        {
+            return e.Error == "'Name' must not be empty.";
+        }));
     }
 
     [Test]

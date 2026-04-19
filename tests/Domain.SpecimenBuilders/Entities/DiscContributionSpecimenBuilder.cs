@@ -8,10 +8,8 @@ public class DiscContributionSpecimenBuilder : ISpecimenBuilder
         {
             return new DiscContribution()
             {
-                DiscId = context.Create<int>(),
-                Disc = null,
-                ArtistId = context.Create<int>(),
-                Artist = null
+                Disc = context.Create<Disc>(),
+                Artist = context.Create<Artist>()
             };
         }
 

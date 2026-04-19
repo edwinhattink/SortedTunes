@@ -9,8 +9,8 @@ public class ArtistSpecimenBuilder : ISpecimenBuilder
             return new Artist()
             {
                 Name = context.Create<string>(),
-                Contributions = new List<Contribution>(),
-                DiscContributions = new List<DiscContribution>()
+                Contributions = [],
+                DiscContributions = []
             };
         }
 

@@ -12,10 +12,7 @@ public class UpdateGenreCommandValidator : AbstractValidator<UpdateGenreCommand>
 
         RuleFor(v => v.Name)
             .NotEmpty()
-                .WithMessage("{PropertyName} must be unique.")
-                .WithErrorCode("Unique")
-            .MaximumLength(200)
-            .WithMessage("Genre name must not exceed 200 characters.");
+            .MaximumLength(200).WithMessage("Genre name must not exceed 200 characters.");
 
         RuleFor(v => v.ParentGenreId)
             .MustAsync(ExistGenre)

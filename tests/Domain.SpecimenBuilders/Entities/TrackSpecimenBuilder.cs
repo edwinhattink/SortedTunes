@@ -11,11 +11,9 @@ public class TrackSpecimenBuilder : ISpecimenBuilder
                 Number = context.CreateInt(1, 50),
                 Title = context.Create<string>(),
                 FileName = context.Create<string>(),
-                DiscId = context.Create<int>(),
-                Disc = null,
-                GenreId = context.Create<int>(),
-                Genre = null,
-                Contributions = new List<Contribution>()
+                Disc = context.Create<Disc>(),
+                Genre = context.Create<Genre>(),
+                Contributions = []
             };
         }
 

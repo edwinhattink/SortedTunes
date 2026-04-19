@@ -10,10 +10,9 @@ public class DiscSpecimenBuilder : ISpecimenBuilder
             {
                 Number = context.CreateInt(1, 10),
                 Title = context.Create<string>(),
-                AlbumId = context.Create<int>(),
-                Album = null,
-                DiscContributions = new List<DiscContribution>(),
-                Tracks = new List<Track>()
+                Album = context.Create<Album>(),
+                DiscContributions = [],
+                Tracks = []
             };
         }
 
