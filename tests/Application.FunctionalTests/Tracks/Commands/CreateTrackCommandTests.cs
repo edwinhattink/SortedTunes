@@ -57,7 +57,8 @@ public class CreateTrackCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Track title must not exceed 200 characters."));
+        Assert.That(ex.Errors, Does.ContainKey("Title"));
+        Assert.That(ex.Errors["Title"].Any(e => e.Error == "'Title' must not be empty."));
     }
 
     [Test, ApplicationAutoData]
@@ -78,7 +79,9 @@ public class CreateTrackCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Track title must not exceed 200 characters."));
+
+        Assert.That(ex.Errors, Does.ContainKey("Title"));
+        Assert.That(ex.Errors["Title"].Any(e => e.Error == "Track title must not exceed 200 characters."));
     }
 
     [Test, ApplicationAutoData]
@@ -99,7 +102,8 @@ public class CreateTrackCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("File name must not exceed 200 characters."));
+        Assert.That(ex.Errors, Does.ContainKey("FileName"));
+        Assert.That(ex.Errors["FileName"].Any(e => e.Error == "File name must not exceed 200 characters."));
     }
 
     [Test, ApplicationAutoData]
@@ -119,7 +123,8 @@ public class CreateTrackCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Disc with Id '999' does not exist."));
+        Assert.That(ex.Errors, Does.ContainKey("DiscId"));
+        Assert.That(ex.Errors["DiscId"].Any(e => e.Error == "Disc with Id 999 does not exist."));
     }
 
     [Test, ApplicationAutoData]
@@ -138,7 +143,8 @@ public class CreateTrackCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Genre with Id '999' does not exist."));
+        Assert.That(ex.Errors, Does.ContainKey("GenreId"));
+        Assert.That(ex.Errors["GenreId"].Any(e => e.Error == "Genre with Id 999 does not exist."));
     }
 
     [Test, ApplicationAutoData]
@@ -159,6 +165,8 @@ public class CreateTrackCommandTests : BaseTestFixture
 
         // act & assert
         var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
-        Assert.That(ex?.Message, Does.Contain("Track number must be at least 1."));
+
+        Assert.That(ex.Errors, Does.ContainKey("Number"));
+        Assert.That(ex.Errors["Number"].Any(e => e.Error == "Track number must be at least 1."));
     }
 }

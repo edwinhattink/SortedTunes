@@ -1,12 +1,12 @@
-﻿using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Common.Interfaces;
 
-namespace SortedTunes.Application.Tracks.Commands.CreateTrack;
+namespace SortedTunes.Application.Tracks.Commands.UpdateTrack;
 
-public class CreateTrackCommandValidator : AbstractValidator<CreateTrackCommand>
+public class UpdateTrackCommandValidator : AbstractValidator<UpdateTrackCommand>
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateTrackCommandValidator(IApplicationDbContext context)
+    public UpdateTrackCommandValidator(IApplicationDbContext context)
     {
         _context = context;
 

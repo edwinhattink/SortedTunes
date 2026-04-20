@@ -22,8 +22,11 @@ public class CreateGenreCommandTests : BaseTestFixture
         var genre = await FindAsync<Genre>(genreId);
 
         Assert.That(genre, Is.Not.Null);
-        Assert.That(genre!.Name, Is.EqualTo(command.Name));
-        Assert.That(genre.ParentGenreId, Is.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(genre!.Name, Is.EqualTo(command.Name));
+            Assert.That(genre.ParentGenreId, Is.Null);
+        }
     }
 
     [Test]
@@ -46,8 +49,11 @@ public class CreateGenreCommandTests : BaseTestFixture
         var genre = await FindAsync<Genre>(genreId);
 
         Assert.That(genre, Is.Not.Null);
-        Assert.That(genre!.Name, Is.EqualTo(command.Name));
-        Assert.That(genre.ParentGenreId, Is.EqualTo(parentGenre.Id));
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(genre!.Name, Is.EqualTo(command.Name));
+            Assert.That(genre.ParentGenreId, Is.EqualTo(parentGenre.Id));
+        }
     }
 
     [Test]
