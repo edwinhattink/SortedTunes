@@ -13,5 +13,5 @@ public class Track : BaseAuditableEntity
     public int GenreId { get; set; }
     public Genre? Genre { get; set; }
 
-    public List<Contribution> Contributions { get; set; } = new List<Contribution>();
+    public List<Contribution> Contributions { get; set; } = [];
 }
