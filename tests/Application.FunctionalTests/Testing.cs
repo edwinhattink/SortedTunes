@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
+using SortedTunes.Application.Elasticsearch.Interfaces;
 using SortedTunes.Domain.Common;
 using SortedTunes.Infrastructure.Data;
 using SortedTunes.Mediator;
@@ -30,6 +31,9 @@ public partial class Testing
         s_factory = new CustomWebApplicationFactory(
             services =>
             {
+                services.Remove<IElasticsearchLoggingService>()
+                    .AddTransient(provider => fixture.Create<IElasticsearchLoggingService>());
+
                 TimeProviderInstance = new FakeTimeProvider();
                 services.Remove<TimeProvider>().AddTransient<TimeProvider>(sp => TimeProviderInstance);
             },
