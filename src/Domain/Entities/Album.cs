@@ -7,5 +7,5 @@ public class Album : BaseAuditableEntity
     public int ReleaseYear { get; set; }
     public string? Image { get; set; }
 
-    public List<Disc> Discs { get; set; } = new List<Disc>();
+    public List<Disc> Discs { get; set; } = [];
 }

@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Buynamics files
+src/Web/appsettings.Development.json
+src/AzureFunction/local.settings.json
+
 # User-specific files
 *.rsuser
 *.suo
@@ -385,7 +389,6 @@ FodyWeavers.xsd
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-*.code-workspace
 
 # Local History for Visual Studio Code
 .history/
@@ -478,3 +481,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+.azure
+/tests/Web.AcceptanceTests/appsettings.dev.json

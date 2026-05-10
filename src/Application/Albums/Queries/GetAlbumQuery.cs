@@ -1,27 +1,22 @@
 ﻿using SortedTunes.Application.Common.Interfaces;
 
 namespace SortedTunes.Application.Albums.Queries;
+
 //[Authorize]
 public record GetAlbumQuery : IRequest<AlbumDto>
 {
     public int Id { get; init; }
 }
 
-public class GetAlbumQueryHandler : IRequestHandler<GetAlbumQuery, AlbumDto>
+public class GetAlbumQueryHandler(IApplicationDbContext context) : IRequestHandler<GetAlbumQuery, AlbumDto>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IMapper _mapper;
-
-    public GetAlbumQueryHandler(IApplicationDbContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
-
     public async Task<AlbumDto> Handle(GetAlbumQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Albums
-           .ProjectTo<AlbumDto>(_mapper.ConfigurationProvider)
+        var album = await context.Albums
            .FirstAsync(a => a.Id == request.Id, cancellationToken);
+
+        Guard.Against.NotFound(request.Id, album);
+
+        return AlbumDto.Create(album);
     }
 }

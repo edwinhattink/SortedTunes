@@ -1,43 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>SortedTunes.Application.FunctionalTests</RootNamespace>
-        <AssemblyName>SortedTunes.Application.FunctionalTests</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>SortedTunes.Application.FunctionalTests</RootNamespace>
+    <AssemblyName>SortedTunes.Application.FunctionalTests</AssemblyName>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AutoFixture.NUnit4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />    
+    <PackageReference Include="nunit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="NUnit.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Respawn" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="Testcontainers.MsSql" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="AutoFixture.AutoNSubstitute" />
+    <PackageReference Include="AutoFixture.SeedExtensions" />    
+  </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="appsettings.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="appsettings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="nunit" />
-        <PackageReference Include="NUnit.Analyzers">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="NUnit3TestAdapter" />
-        <PackageReference Include="coverlet.collector">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="Moq" />
-        <PackageReference Include="Respawn" />
-        <PackageReference Include="Testcontainers.MsSql" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\Web\Web.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Web\Web.csproj" />
+    <ProjectReference Include="..\Application.SpecimenBuilders\Application.SpecimenBuilders.csproj" />
+    <ProjectReference Include="..\Domain.SpecimenBuilders\Domain.SpecimenBuilders.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Genres.Commands.DeleteGenre;
+﻿using SortedTunes.Application.Genres.Commands.Delete;
 
 namespace SortedTunes.Application.FunctionalTests.Genres.Commands;
 
@@ -19,21 +19,17 @@ public class DeleteGenreCommandTests : BaseTestFixture
         await SendAsync(command);
 
         // assert
-        var deletedGenre = await FindAsync<Genre>(genre.Id);
-        deletedGenre.Should().BeNull();
+        Assert.ThrowsAsync<ArgumentNullException>(async () => await FindAsync<Genre>(genre.Id));
     }
 
     [Test]
-    public async Task ShouldFailWhenGenreNotFound()
+    public void ShouldFailWhenGenreNotFound()
     {
         // arrange
         var command = new DeleteGenreCommand(999); // Non-existent genre ID
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        // act & assert
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -48,9 +44,7 @@ public class DeleteGenreCommandTests : BaseTestFixture
         // act
         await SendAsync(command); // First deletion
 
-        Func<Task> action = async () => await SendAsync(command); // Second deletion attempt
-
         // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command)); // Second deletion attempt
     }
 }

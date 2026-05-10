@@ -1,24 +1,25 @@
 ﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SortedTunes.Application.Common.Behaviours;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace SortedTunes.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static void AddApplicationServices(this IHostApplicationBuilder builder)
     {
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-        services.AddMediatR(cfg => {
+        builder.Services.AddMediator(cfg =>
+        {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
+            //TODO: cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
 
-        return services;
+        builder.Services.AddMemoryCache();
     }
 }

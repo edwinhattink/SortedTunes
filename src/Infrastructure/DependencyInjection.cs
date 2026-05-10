@@ -1,48 +1,55 @@
-﻿using SortedTunes.Application.Common.Interfaces;
-using SortedTunes.Domain.Constants;
-using SortedTunes.Infrastructure.Data;
-using SortedTunes.Infrastructure.Data.Interceptors;
-using SortedTunes.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Elasticsearch.Config;
+using SortedTunes.Application.Elasticsearch.Interfaces;
+using SortedTunes.Infrastructure.Data;
+using SortedTunes.Infrastructure.Data.Interceptors;
+using SortedTunes.Infrastructure.Services.Cache;
+using SortedTunes.Infrastructure.Services.Elasticsearch;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace SortedTunes.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        // Elasticsearch
+        builder.Services.Configure<ElasticsearchOptions>(builder.Configuration.GetSection("Elasticsearch"));
+        builder.Services.AddScoped((provider) =>
+        {
+            var elasticsearchOptions = provider.GetRequiredService<IOptions<ElasticsearchOptions>>().Value;
+            return elasticsearchOptions.CreateClient();
+        });
+        builder.Services.AddScoped<IElasticsearchLoggingService, ElasticsearchLoggingService>();
 
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
 
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        builder.Services.AddScoped<ISaveChangesInterceptor, SoftDeleteInterceptor>();
+        builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
-        services.AddDbContext<ApplicationDbContext>((sp, options) =>
+        builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
+            options.EnableSensitiveDataLogging(builder.Environment.IsDevelopment());
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-
             options.UseSqlServer(connectionString);
         });
 
-        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-        services.AddScoped<ApplicationDbContextInitialiser>();
+        builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 
-        services
-            .AddDefaultIdentity<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+        builder.Services.AddSingleton(TimeProvider.System);
 
-        services.AddSingleton(TimeProvider.System);
-        services.AddTransient<IIdentityService, IdentityService>();
-
-        services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
-
-        return services;
+        // Caching
+        builder.Services.AddMemoryCache();
+        builder.Services.AddScoped<ICacheProvider, CacheProvider>();
+        builder.Services.AddScoped<IMemoryWrapper, MemoryWrapper>();
     }
 }

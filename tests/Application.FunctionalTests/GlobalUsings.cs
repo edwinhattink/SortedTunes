@@ -1,7 +1,10 @@
 ﻿global using Ardalis.GuardClauses;
-global using FluentAssertions;
-global using Moq;
+global using AutoFixture;
+global using AutoFixture.NUnit4;
+global using NSubstitute;
 global using NUnit.Framework;
 global using SortedTunes.Application.Common.Exceptions;
 global using SortedTunes.Application.FunctionalTests.Extensions;
+global using SortedTunes.Application.SpecimenBuilders;
 global using SortedTunes.Domain.Entities;
+

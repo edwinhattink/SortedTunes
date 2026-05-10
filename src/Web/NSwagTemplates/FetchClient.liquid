@@ -1,0 +1,16 @@
+{% if HasOperations -%}
+export class {{ Class }} {
+{%- for operation in Operations %}
+    static readonly {{ operation.ActualOperationName }} = ({%- for parameter in operation.Parameters -%} {{ parameter.VariableName }}{% if GenerateOptionalParameters and parameter.IsOptional %}?{% endif %}: {{ parameter.Type }}{% if forloop.last == false %}, {% endif -%}{%- endfor %}) => { 
+        {% template Client.RequestUrl %}
+        return axios<{% if operation.IsFile %}Blob{% else %}{{ operation.ResultType }}{% endif %}>({
+            url: url.toString(),
+            method: '{{ operation.HttpMethodUpper | upcase }}',
+            {%- for parameter in operation.Parameters -%}{%- if parameter.Kind == 1 -%}
+            data: {{ parameter.VariableName }},{%- endif -%}{% endfor %}
+            {% if operation.IsFile -%}responseType: 'blob'{%- endif %}
+        });
+    };
+{%- endfor %}
+}
+{%- endif %}

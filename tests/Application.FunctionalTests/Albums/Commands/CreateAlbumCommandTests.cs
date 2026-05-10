@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Albums.Commands.CreateAlbum;
+﻿using SortedTunes.Application.Albums.Commands.Create;
 
 namespace SortedTunes.Application.FunctionalTests.Albums.Commands;
 
@@ -21,25 +21,22 @@ public class CreateAlbumCommandTests : BaseTestFixture
         // assert
         var album = await FindAsync<Album>(albumId);
 
-        album.Should().NotBeNull();
-        album!.Title.Should().Be(command.Title);
+        Assert.That(album, Is.Not.Null);
+        Assert.That(album!.Title, Is.EqualTo(command.Title));
     }
 
     [Test]
-    public async Task ShouldRequireTitle()
+    public void ShouldRequireTitle()
     {
         // arrange
         var command = new CreateAlbumCommand() { Title = "" };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
-    public async Task ShouldFailWhenTitleIsTooLong()
+    public void ShouldFailWhenTitleIsTooLong()
     {
         // arrange
         var command = new CreateAlbumCommand
@@ -47,11 +44,8 @@ public class CreateAlbumCommandTests : BaseTestFixture
             Title = new string('A', 201) // 201 characters long
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>();
+        // act & assert
+        Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
     }
 
     [Test]
@@ -66,11 +60,8 @@ public class CreateAlbumCommandTests : BaseTestFixture
             Title = "Existing Album"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("Title", "Title must be unique.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex?.Message, Does.Contain("Title must be unique."));
     }
 }

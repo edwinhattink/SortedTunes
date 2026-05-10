@@ -1,0 +1,114 @@
+{
+    "folders": [
+        {
+            "name": "Backend (Full Repository)",
+            "path": "."
+        },
+        {
+            "name": "Frontend (ClientApp)",
+            "path": "./src/Web/ClientAppCostModels"
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "**/bin": true,
+            "**/obj": true,
+            "**/node_modules": true,
+            "**/.git": false
+        }
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Run Web (dotnet)",
+                "type": "shell",
+                "command": "dotnet",
+                "args": ["run", "--project", "src/Web/Web.csproj"],
+                "options": {
+                    "cwd": "${workspaceFolder:Backend (Full Repository)}"
+                },
+                "group": "build",
+                "problemMatcher": [],
+                "presentation": {
+                    "echo": true,
+                    "reveal": "always",
+                    "focus": false,
+                    "panel": "shared",
+                    "showReuseMessage": true,
+                    "clear": false
+                }
+            },
+            {
+                "label": "Restore backend",
+                "type": "shell",
+                "command": "dotnet",
+                "args": ["restore"],
+                "options": {
+                    "cwd": "${workspaceFolder:Backend (Full Repository)}"
+                },
+                "group": "build",
+                "problemMatcher": []
+            },
+            {
+                "label": "Build Solution",
+                "type": "shell",
+                "command": "dotnet",
+                "args": ["build"],
+                "options": {
+                    "cwd": "${workspaceFolder:Backend (Full Repository)}"
+                },
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "Run Refresh",
+                "type": "shell",
+                "command": "dotnet",
+                "args": ["run", "--project", "src/Tools/Tools.csproj", "refresh"],
+                "options": {
+                    "cwd": "${workspaceFolder:Backend (Full Repository)}"
+                },
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "Run Acceptance Tests",
+                "type": "shell",
+                "command": "dotnet",
+                "args": ["test", "tests/Web.AcceptanceTests/Web.AcceptanceTests.csproj"],
+                "options": {
+                    "cwd": "${workspaceFolder:Backend (Full Repository)}"
+                },
+                "group": "build",
+                "problemMatcher": "$msCompile"
+            },
+            {
+                "label": "npm install",
+                "type": "shell",
+                "command": "npm",
+                "args": ["install"],
+                "options": {
+                    "cwd": "${workspaceFolder:Frontend (ClientApp)}"
+                },
+                "group": "build",
+                "problemMatcher": []
+            },
+            {
+                "label": "npm test",
+                "type": "shell",
+                "command": "npm",
+                "args": ["test"],
+                "options": {
+                    "cwd": "${workspaceFolder:Frontend (ClientApp)}"
+                },
+                "group": "test",
+                "problemMatcher": []
+            }
+        ]
+    },
+    "extensions": {
+        "recommendations": [
+        ]
+    }
+}

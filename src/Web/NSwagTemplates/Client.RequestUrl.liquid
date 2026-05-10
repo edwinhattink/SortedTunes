@@ -1,0 +1,51 @@
+let path = "/{{ operation.Path }}";
+{%- for parameter in operation.PathParameters -%}
+    {%- if parameter.IsRequired -%}
+        if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null) { 
+            throw new Error("The parameter '{{ parameter.VariableName }}' must be defined."); 
+        }
+{%- if parameter.IsDateOrDateTimeArray -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent({{ parameter.VariableName }}.map(item => item ? item.{{ parameter.GetDateTimeToString }} : "null").join()));
+{%- elsif parameter.IsDateOrDateTime -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent({{ parameter.VariableName }} ? ("" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }}) : "null"));
+{%- elsif parameter.IsArray -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent({{ parameter.VariableName }}.join()));
+{%- else -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent("" + {{ parameter.VariableName }}));
+{%- endif -%}
+    {%- else -%}
+        if ({{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null) {
+    {%- if parameter.IsDateOrDateTimeArray -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent({{ parameter.VariableName }}.map(item => item ? item.{{ parameter.GetDateTimeToString }} : "null").join()));
+    {%- elsif parameter.IsDateOrDateTime -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent({{ parameter.VariableName }} ? ("" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }}) : "null"));
+    {%- elsif parameter.IsArray -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent({{ parameter.VariableName }}.join()));
+    {%- else -%}
+        path = path.replace("{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", encodeURIComponent("" + {{ parameter.VariableName }}));
+    {%- endif -%}
+    } else {
+        path = path.replace("/{% raw %}{{% endraw %}{{ parameter.Name }}{% raw %}}{% endraw %}", "");
+    }
+    {%- endif -%}
+{%- endfor -%}
+        const url = new URL(path, axios.defaults.baseURL);
+{%- for parameter in operation.QueryParameters -%}
+    {%- if parameter.IsRequired -%}
+        if ({{ parameter.VariableName }} === undefined || {{ parameter.VariableName }} === null) { 
+            throw new Error("The query parameter '{{ parameter.VariableName }}' is required."); 
+        } else {
+    {%- else -%}
+        if ({{ parameter.VariableName }} !== undefined && {{ parameter.VariableName }} !== null) {
+    {%- endif -%}
+    {%- if parameter.IsDateOrDateTimeArray -%}
+                {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item_ => { url_ += "{{ parameter.Name }}=" + encodeURIComponent(item_ ? "" + item_.{{ parameter.GetDateTimeToString }} : "null") + "&"; });
+    {%- elsif parameter.IsDateOrDateTime -%}
+                url_ += "{{ parameter.Name }}=" + encodeURIComponent({{ parameter.VariableName }} ? "" + {{ parameter.VariableName }}.{{ parameter.GetDateTimeToString }} : "{{ QueryNullValue }}") + "&";
+    {%- elsif parameter.IsArray -%}
+                {{ parameter.VariableName }} && {{ parameter.VariableName }}.forEach(item => { url.searchParams.append("{{ parameter.Name }}", {{ parameter.VariableName }}); }); }
+    {%- else -%}
+            url.searchParams.append("{{ parameter.Name }}", {{ parameter.VariableName }}{% if parameter.Type == 'number' -%}.toString(){% endif -%}{% if parameter.Type == 'boolean' -%}.toString(){% endif -%});
+    {%- endif -%}
+        }
+{%- endfor %}

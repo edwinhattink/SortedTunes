@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Genres.Commands.UpdateGenre;
+﻿using SortedTunes.Application.Genres.Commands.Update;
 
 namespace SortedTunes.Application.FunctionalTests.Genres.Commands;
 
@@ -25,9 +25,9 @@ public class UpdateGenreCommandTests : BaseTestFixture
         // assert
         var updatedGenre = await FindAsync<Genre>(genre.Id);
 
-        updatedGenre.Should().NotBeNull();
-        updatedGenre!.Name.Should().Be(command.Name);
-        updatedGenre.ParentGenreId.Should().BeNull();
+        Assert.That(updatedGenre, Is.Not.Null);
+        Assert.That(updatedGenre!.Name, Is.EqualTo(command.Name));
+        Assert.That(updatedGenre.ParentGenreId, Is.Null);
     }
 
     [Test]
@@ -52,9 +52,9 @@ public class UpdateGenreCommandTests : BaseTestFixture
         // assert
         var updatedGenre = await FindAsync<Genre>(genre.Id);
 
-        updatedGenre.Should().NotBeNull();
-        updatedGenre!.Name.Should().Be(command.Name);
-        updatedGenre.ParentGenreId.Should().Be(parentGenre.Id);
+        Assert.That(updatedGenre, Is.Not.Null);
+        Assert.That(updatedGenre!.Name, Is.EqualTo(command.Name));
+        Assert.That(updatedGenre.ParentGenreId, Is.EqualTo(parentGenre.Id));
     }
 
     [Test]
@@ -70,13 +70,13 @@ public class UpdateGenreCommandTests : BaseTestFixture
             Name = ""
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("Name", "'Name' must not be empty.");
-
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("Name"));
+        Assert.That(ex.Errors["Name"].Any(e =>
+        {
+            return e.Error == "'Name' must not be empty.";
+        }));
     }
 
     [Test]
@@ -92,12 +92,10 @@ public class UpdateGenreCommandTests : BaseTestFixture
             Name = new string('A', 201) // 201 characters long
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("Name", "Genre name must not exceed 200 characters.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("Name"));
+        Assert.That(ex.Errors["Name"].Any(e => e.Error == "Genre name must not exceed 200 characters."));
     }
 
     [Test]
@@ -114,16 +112,14 @@ public class UpdateGenreCommandTests : BaseTestFixture
             ParentGenreId = 999 // Non-existent parent genre ID
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("ParentGenreId", "Parent genre with Id '999' does not exist.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("ParentGenreId"));
+        Assert.That(ex.Errors["ParentGenreId"].Any(e => e.Error == "Parent genre with Id '999' does not exist."));
     }
 
     [Test]
-    public async Task ShouldFailWhenGenreNotFound()
+    public void ShouldFailWhenGenreNotFound()
     {
         // arrange
         var command = new UpdateGenreCommand
@@ -132,10 +128,7 @@ public class UpdateGenreCommandTests : BaseTestFixture
             Name = "New Genre"
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<NotFoundException>();
+        // act & assert
+        Assert.ThrowsAsync<NotFoundException>(async () => await SendAsync(command));
     }
 }

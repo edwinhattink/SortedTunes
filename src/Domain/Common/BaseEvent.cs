@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using SortedTunes.Mediator.Contracts;
 
 namespace SortedTunes.Domain.Common;
 

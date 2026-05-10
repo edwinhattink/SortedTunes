@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Tracks.Commands.CreateTrack;
+﻿using SortedTunes.Application.Tracks.Commands.Create;
 
 namespace SortedTunes.Application.FunctionalTests.Tracks.Commands;
 
@@ -6,12 +6,10 @@ using static Testing;
 
 public class CreateTrackCommandTests : BaseTestFixture
 {
-    [Test]
-    public async Task ShouldCreateTrack()
+    [Test, ApplicationAutoData]
+    public async Task ShouldCreateTrack(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -30,20 +28,21 @@ public class CreateTrackCommandTests : BaseTestFixture
         // assert
         var track = await FindAsync<Track>(trackId);
 
-        track.Should().NotBeNull();
-        track!.Title.Should().Be(command.Title);
-        track.Number.Should().Be(command.Number);
-        track.FileName.Should().Be(command.FileName);
-        track.DiscId.Should().Be(command.DiscId);
-        track.GenreId.Should().Be(command.GenreId);
+        Assert.That(track, Is.Not.Null);
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(track!.Title, Is.EqualTo(command.Title));
+            Assert.That(track.Number, Is.EqualTo(command.Number));
+            Assert.That(track.FileName, Is.EqualTo(command.FileName));
+            Assert.That(track.DiscId, Is.EqualTo(command.DiscId));
+            Assert.That(track.GenreId, Is.EqualTo(command.GenreId));
+        }
     }
 
-    [Test]
-    public async Task ShouldRequireTitle()
+    [Test, ApplicationAutoData]
+    public async Task ShouldRequireTitle(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -56,20 +55,16 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("Track title must not exceed 200 characters.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("Title"));
+        Assert.That(ex.Errors["Title"].Any(e => e.Error == "'Title' must not be empty."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenTitleIsTooLong()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenTitleIsTooLong(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -82,20 +77,17 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
 
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("Track title must not exceed 200 characters.");
+        Assert.That(ex.Errors, Does.ContainKey("Title"));
+        Assert.That(ex.Errors["Title"].Any(e => e.Error == "Track title must not exceed 200 characters."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenFileNameIsTooLong()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenFileNameIsTooLong(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -108,19 +100,16 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("File name must not exceed 200 characters.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("FileName"));
+        Assert.That(ex.Errors["FileName"].Any(e => e.Error == "File name must not exceed 200 characters."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenDiscDoesNotExist()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenDiscDoesNotExist(Genre genre)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
         await AddAsync(genre);
 
         var command = new CreateTrackCommand
@@ -132,21 +121,17 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("DiscId", "Disc with Id '999' does not exist.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("DiscId"));
+        Assert.That(ex.Errors["DiscId"].Any(e => e.Error == "Disc with Id 999 does not exist."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenGenreDoesNotExist()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenGenreDoesNotExist(Disc disc)
     {
         // arrange
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(disc);
-
         var command = new CreateTrackCommand
         {
             Number = 1,
@@ -156,20 +141,16 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = 999 // Non-existent genre ID
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
-
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithErrorOnProperty("GenreId", "Genre with Id '999' does not exist.");
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
+        Assert.That(ex.Errors, Does.ContainKey("GenreId"));
+        Assert.That(ex.Errors["GenreId"].Any(e => e.Error == "Genre with Id 999 does not exist."));
     }
 
-    [Test]
-    public async Task ShouldFailWhenNumberIsLessThanOne()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenNumberIsLessThanOne(Genre genre, Disc disc)
     {
         // arrange
-        var genre = new Genre { Name = "Genre" };
-        var disc = new Disc { Title = "Disc", Number = 1 };
         await AddAsync(genre);
         await AddAsync(disc);
 
@@ -182,11 +163,10 @@ public class CreateTrackCommandTests : BaseTestFixture
             GenreId = genre.Id
         };
 
-        // act
-        Func<Task> action = async () => await SendAsync(command);
+        // act & assert
+        var ex = Assert.ThrowsAsync<ValidationException>(async () => await SendAsync(command));
 
-        // assert
-        await action.Should().ThrowAsync<ValidationException>()
-            .WithMessage("Track number must be at least 1.");
+        Assert.That(ex.Errors, Does.ContainKey("Number"));
+        Assert.That(ex.Errors["Number"].Any(e => e.Error == "Track number must be at least 1."));
     }
 }

@@ -1,0 +1,15 @@
+﻿using Elastic.Clients.Elasticsearch.Mapping;
+
+namespace SortedTunes.Application.Elasticsearch.MappingProperties;
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+public class MultiLingualSearchAsYouTypeFieldAttribute : BaseMultiLingualAttribute
+{
+    public override string Name => "multiligual_search_as_you_type";
+
+    public override IProperty GetElasticProperty()
+    {
+        return new SearchAsYouTypeProperty();
+    }
+
+}

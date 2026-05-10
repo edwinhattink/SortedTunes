@@ -1,6 +1,5 @@
 ﻿using System.Data.Common;
-using SortedTunes.Application.Common.Interfaces;
-using SortedTunes.Infrastructure.Data;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -8,35 +7,34 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SortedTunes.Infrastructure.Data;
+using SortedTunes.Mediator;
 
 namespace SortedTunes.Application.FunctionalTests;
 
-using static Testing;
-
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+public class CustomWebApplicationFactory(
+    Action<IServiceCollection> serviceCollection,
+    DbConnection connection
+) : WebApplicationFactory<Program>
 {
-    private readonly DbConnection _connection;
-
-    public CustomWebApplicationFactory(DbConnection connection)
-    {
-        _connection = connection;
-    }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
         {
-            services
-                .RemoveAll<IUser>()
-                .AddTransient(provider => Mock.Of<IUser>(s => s.Id == GetUserId()));
+            //services.RemoveAll<ICurrentUserService>()
+            //    .AddTransient<ICurrentUserService, CurrentUserService>();
+
+            services.AddMediator(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services
                 .RemoveAll<DbContextOptions<ApplicationDbContext>>()
                 .AddDbContext<ApplicationDbContext>((sp, options) =>
                 {
                     options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-                    options.UseSqlServer(_connection);
+                    options.UseSqlServer(connection);
                 });
         });
+
+        builder.ConfigureServices(serviceCollection.Invoke);
     }
 }

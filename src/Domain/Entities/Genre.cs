@@ -7,8 +7,8 @@ public class Genre : BaseAuditableEntity
     public int? ParentGenreId { get; set; }
     public Genre? ParentGenre { get; set; }
 
-    public List<Track> Tracks { get; set; } = new List<Track>();
+    public List<Track> Tracks { get; set; } = [];
 
-    public List<Genre> Genres { get; set; } = new List<Genre>();
+    public List<Genre> Genres { get; set; } = [];
 
 }
