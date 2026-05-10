@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Tracks.Commands.CreateTrack;
+﻿using SortedTunes.Application.Tracks.Commands.Create;
 
 namespace SortedTunes.Application.FunctionalTests.Tracks.Commands;
 

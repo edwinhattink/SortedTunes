@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Albums.Commands.DeleteAlbum;
+﻿using SortedTunes.Application.Albums.Commands.Delete;
 
 namespace SortedTunes.Application.FunctionalTests.Albums.Commands;
 

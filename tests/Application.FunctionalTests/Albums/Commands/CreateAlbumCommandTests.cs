@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Albums.Commands.CreateAlbum;
+﻿using SortedTunes.Application.Albums.Commands.Create;
 
 namespace SortedTunes.Application.FunctionalTests.Albums.Commands;
 

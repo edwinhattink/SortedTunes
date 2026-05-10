@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Genres.Commands.UpdateGenre;
+﻿using SortedTunes.Application.Genres.Commands.Update;
 
 namespace SortedTunes.Application.FunctionalTests.Genres.Commands;
 

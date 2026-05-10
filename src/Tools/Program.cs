@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SortedTunes.Application;
 using SortedTunes.Infrastructure;
+using SortedTunes.Mediator;
+using SortedTunes.Mediator.Contracts;
 
 var builder = Host.CreateApplicationBuilder(args);
 

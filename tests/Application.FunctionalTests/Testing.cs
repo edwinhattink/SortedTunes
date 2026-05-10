@@ -1,11 +1,12 @@
 using System.Linq.Expressions;
 using System.Text.Json;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Time.Testing;
 using SortedTunes.Domain.Common;
 using SortedTunes.Infrastructure.Data;
+using SortedTunes.Mediator;
+using SortedTunes.Mediator.Contracts;
 
 namespace SortedTunes.Application.FunctionalTests;
 
@@ -54,7 +55,7 @@ public partial class Testing
         }
     }
 
-    public static async Task SendAsync(IBaseRequest request)
+    public static async Task SendAsync(IRequest request)
     {
         using var scope = s_scopeFactory.CreateScope();
 

@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Artists.Commands.DeleteArtist;
+﻿using SortedTunes.Application.Artists.Commands.Delete;
 
 namespace SortedTunes.Application.FunctionalTests.Artists.Commands;
 

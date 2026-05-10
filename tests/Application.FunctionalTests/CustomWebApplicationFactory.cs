@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SortedTunes.Infrastructure.Data;
+using SortedTunes.Mediator;
 
 namespace SortedTunes.Application.FunctionalTests;
 
@@ -23,7 +24,7 @@ public class CustomWebApplicationFactory(
             //services.RemoveAll<ICurrentUserService>()
             //    .AddTransient<ICurrentUserService, CurrentUserService>();
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMediator(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             services
                 .RemoveAll<DbContextOptions<ApplicationDbContext>>()

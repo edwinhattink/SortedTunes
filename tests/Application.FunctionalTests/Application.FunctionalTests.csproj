@@ -4,6 +4,7 @@
     <RootNamespace>SortedTunes.Application.FunctionalTests</RootNamespace>
     <AssemblyName>SortedTunes.Application.FunctionalTests</AssemblyName>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="AutoFixture.NUnit4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />

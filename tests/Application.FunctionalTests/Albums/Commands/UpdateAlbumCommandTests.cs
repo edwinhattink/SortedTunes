@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Albums.Commands.UpdateAlbum;
+﻿using SortedTunes.Application.Albums.Commands.Update;
 
 namespace SortedTunes.Application.FunctionalTests.Albums.Commands;
 

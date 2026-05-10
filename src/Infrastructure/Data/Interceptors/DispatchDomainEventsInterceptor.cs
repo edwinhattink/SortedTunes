@@ -1,7 +1,7 @@
-﻿using SortedTunes.Domain.Common;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using SortedTunes.Domain.Common;
+using SortedTunes.Mediator;
 
 namespace SortedTunes.Infrastructure.Data.Interceptors;
 

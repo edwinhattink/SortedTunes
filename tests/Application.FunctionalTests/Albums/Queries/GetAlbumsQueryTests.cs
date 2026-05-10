@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Albums.Queries.GetAlbums;
+﻿using SortedTunes.Application.Albums.Queries;
 
 namespace SortedTunes.Application.FunctionalTests.Albums.Queries;
 

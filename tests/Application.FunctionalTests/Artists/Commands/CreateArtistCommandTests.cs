@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Artists.Commands.CreateArtist;
+﻿using SortedTunes.Application.Artists.Commands.Create;
 
 namespace SortedTunes.Application.FunctionalTests.Artists.Commands;
 

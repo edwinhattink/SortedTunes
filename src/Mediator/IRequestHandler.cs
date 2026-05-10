@@ -1,0 +1,15 @@
+using SortedTunes.Mediator.Contracts;
+
+namespace SortedTunes.Mediator;
+
+public interface IRequestHandler<in TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
+{
+    Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
+}
+
+public interface IRequestHandler<in TRequest>
+    where TRequest : IRequest
+{
+    Task Handle(TRequest request, CancellationToken cancellationToken);
+}

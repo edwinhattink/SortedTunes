@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using SortedTunes.Application.Elasticsearch.Interfaces;
+using SortedTunes.Mediator;
 
 namespace SortedTunes.Application.Common.Behaviours;
 

@@ -1,4 +1,5 @@
-using SortedTunes.Application.Tracks.Commands.UpdateTrack;
+using SortedTunes.Application.Tracks.Commands.Update;
+using SortedTunes.Domain.Common;
 
 namespace SortedTunes.Application.FunctionalTests.Tracks.Commands;
 
@@ -218,9 +219,11 @@ public class UpdateTrackCommandTests : BaseTestFixture
         Assert.That(ex.Errors["GenreId"].Any(e => e.Error == "Genre with Id 999 does not exist."));
     }
 
-    [Test]
-    public void ShouldFailWhenTrackNotFound()
+    [Test, ApplicationAutoData]
+    public async Task ShouldFailWhenTrackNotFound(Disc disc, Genre genre)
     {
+        await AddRangeAsync<BaseEntity>([disc, genre]);
+
         // arrange
         var command = new UpdateTrackCommand
         {
@@ -228,8 +231,8 @@ public class UpdateTrackCommandTests : BaseTestFixture
             Number = 1,
             Title = "Updated Track",
             FileName = "updated.mp3",
-            DiscId = 1,
-            GenreId = 1
+            DiscId = disc.Id,
+            GenreId = genre.Id
         };
 
         // act & assert

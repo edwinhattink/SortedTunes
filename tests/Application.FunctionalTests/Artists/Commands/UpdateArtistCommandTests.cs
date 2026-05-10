@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Artists.Commands.UpdateArtist;
+﻿using SortedTunes.Application.Artists.Commands.Update;
 
 namespace SortedTunes.Application.FunctionalTests.Artists.Commands;
 

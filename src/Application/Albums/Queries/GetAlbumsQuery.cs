@@ -1,7 +1,7 @@
 ﻿using SortedTunes.Application.Common.Interfaces;
 using SortedTunes.Application.Common.Models;
 
-namespace SortedTunes.Application.Albums.Queries.GetAlbums;
+namespace SortedTunes.Application.Albums.Queries;
 
 //[Authorize]
 public record GetAlbumsQuery : IRequest<PaginatedList<AlbumDto>>

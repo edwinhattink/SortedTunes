@@ -1,4 +1,4 @@
-﻿using SortedTunes.Application.Genres.Commands.DeleteGenre;
+﻿using SortedTunes.Application.Genres.Commands.Delete;
 
 namespace SortedTunes.Application.FunctionalTests.Genres.Commands;
 
