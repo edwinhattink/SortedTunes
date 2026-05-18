@@ -3,9 +3,9 @@ using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 using SortedTunes.Application.Elasticsearch.Exceptions;
 using SortedTunes.Application.Elasticsearch.Helpers;
-using SortedTunes.Application.Elasticsearch.Models.Logs;
+using SortedTunes.Infrastructure.Services.Elasticsearch.Models.Logs;
 
-namespace SortedTunes.Application.Elasticsearch.Base;
+namespace SortedTunes.Infrastructure.Services.Elasticsearch.Base;
 
 public abstract class BaseLoggingService(ElasticsearchClient elasticsearchClient, TimeProvider timeProvider)
 {

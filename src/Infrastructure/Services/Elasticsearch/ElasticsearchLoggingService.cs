@@ -4,6 +4,7 @@ using Elastic.Clients.Elasticsearch.Ingest;
 using SortedTunes.Application.Elasticsearch.Base;
 using SortedTunes.Application.Elasticsearch.Exceptions;
 using SortedTunes.Application.Elasticsearch.Interfaces;
+using SortedTunes.Infrastructure.Services.Elasticsearch.Base;
 
 namespace SortedTunes.Infrastructure.Services.Elasticsearch;
 

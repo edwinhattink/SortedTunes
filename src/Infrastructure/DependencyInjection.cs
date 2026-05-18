@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SortedTunes.Application.Common.Interfaces;
-using SortedTunes.Application.Elasticsearch.Config;
 using SortedTunes.Application.Elasticsearch.Interfaces;
 using SortedTunes.Infrastructure.Data;
 using SortedTunes.Infrastructure.Data.Interceptors;
 using SortedTunes.Infrastructure.Services.Cache;
 using SortedTunes.Infrastructure.Services.Elasticsearch;
+using SortedTunes.Infrastructure.Services.Elasticsearch.Config;
 
 namespace SortedTunes.Infrastructure;
 

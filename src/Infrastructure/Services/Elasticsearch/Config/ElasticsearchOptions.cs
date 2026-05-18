@@ -2,7 +2,7 @@
 using Elastic.Transport;
 using SortedTunes.Application.Elasticsearch.Exceptions;
 
-namespace SortedTunes.Application.Elasticsearch.Config;
+namespace SortedTunes.Infrastructure.Services.Elasticsearch.Config;
 
 public sealed class ElasticsearchOptions
 {
