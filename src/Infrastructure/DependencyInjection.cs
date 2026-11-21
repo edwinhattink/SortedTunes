@@ -26,6 +26,11 @@ public static class DependencyInjection
             return elasticsearchOptions.CreateClient();
         });
         builder.Services.AddScoped<IElasticsearchLoggingService, ElasticsearchLoggingService>();
+        builder.Services.AddScoped<IElasticsearchAlbumsService, ElasticsearchAlbumsService>();
+        builder.Services.AddScoped<IElasticsearchArtistsService, ElasticsearchArtistsService>();
+        builder.Services.AddScoped<IElasticsearchTracksService, ElasticsearchTracksService>();
+        builder.Services.AddScoped<IElasticsearchDiscsService, ElasticsearchDiscsService>();
+        builder.Services.AddScoped<IElasticsearchGenresService, ElasticsearchGenresService>();
 
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");

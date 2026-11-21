@@ -1,9 +1,26 @@
 using SortedTunes.Application.Elasticsearch.MappingProperties;
+using SortedTunes.Domain.Entities;
 
 namespace SortedTunes.Application.Elasticsearch.Models;
 
 public class TrackDocument
 {
+    public static TrackDocument Create(Track track) => new()
+    {
+        Id = track.Id,
+        Number = track.Number,
+        Title = track.Title,
+        FileName = track.FileName,
+        DiscId = track.DiscId,
+        Disc = track.Disc != null ? DiscDocument.Create(track.Disc) : null,
+        GenreId = track.GenreId,
+        Genre = track.Genre != null ? GenreDocument.Create(track.Genre) : null,
+        Created = track.Created,
+        CreatedBy = track.CreatedBy,
+        LastModified = track.LastModified,
+        LastModifiedBy = track.LastModifiedBy
+    };
+
     [KeywordField]
     public int Id { get; set; }
 
