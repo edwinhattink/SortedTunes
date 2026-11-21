@@ -1,4 +1,4 @@
-﻿using Elastic.Transport.Products.Elasticsearch;
+using Elastic.Transport.Products.Elasticsearch;
 
 namespace SortedTunes.Application.Elasticsearch.Exceptions;
 

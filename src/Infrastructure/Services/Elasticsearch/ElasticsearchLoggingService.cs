@@ -1,7 +1,6 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Ingest;
-using SortedTunes.Application.Elasticsearch.Base;
 using SortedTunes.Application.Elasticsearch.Exceptions;
 using SortedTunes.Application.Elasticsearch.Interfaces;
 using SortedTunes.Infrastructure.Services.Elasticsearch.Base;
