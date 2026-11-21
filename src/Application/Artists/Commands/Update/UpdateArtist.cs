@@ -1,15 +1,19 @@
-﻿using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Elasticsearch.Interfaces;
+using SortedTunes.Application.Elasticsearch.Models;
 
 namespace SortedTunes.Application.Artists.Commands.Update;
 
 public record UpdateArtistCommand : IRequest
 {
     public int Id { get; init; }
-
     public required string Name { get; init; }
 }
 
-public class UpdateArtistCommandHandler(IApplicationDbContext context) : IRequestHandler<UpdateArtistCommand>
+public class UpdateArtistCommandHandler(
+    IApplicationDbContext context,
+    IElasticsearchArtistsService elasticsearchArtistsService
+) : IRequestHandler<UpdateArtistCommand>
 {
     public async Task Handle(UpdateArtistCommand request, CancellationToken cancellationToken)
     {
@@ -21,5 +25,7 @@ public class UpdateArtistCommandHandler(IApplicationDbContext context) : IReques
         entity.Name = request.Name;
 
         await context.SaveChangesAsync(cancellationToken);
+
+        await elasticsearchArtistsService.IndexArtistAsync(ArtistDocument.Create(entity), cancellationToken);
     }
 }

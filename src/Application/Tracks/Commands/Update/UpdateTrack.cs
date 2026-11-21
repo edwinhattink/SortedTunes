@@ -1,4 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+
 using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Elasticsearch.Interfaces;
+using SortedTunes.Application.Elasticsearch.Models;
 
 namespace SortedTunes.Application.Tracks.Commands.Update;
 
@@ -12,12 +16,17 @@ public record UpdateTrackCommand : IRequest
     public required int GenreId { get; set; }
 }
 
-public class UpdateTrackCommandHandler(IApplicationDbContext context) : IRequestHandler<UpdateTrackCommand>
+public class UpdateTrackCommandHandler(
+    IApplicationDbContext context,
+    IElasticsearchTracksService elasticsearchTracksService
+) : IRequestHandler<UpdateTrackCommand>
 {
     public async Task Handle(UpdateTrackCommand request, CancellationToken cancellationToken)
     {
         var entity = await context.Tracks
-            .FindAsync([request.Id], cancellationToken);
+            .Include(t => t.Disc)
+            .Include(t => t.Genre)
+            .SingleOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
         Guard.Against.NotFound(request.Id, entity);
 
@@ -28,5 +37,11 @@ public class UpdateTrackCommandHandler(IApplicationDbContext context) : IRequest
         entity.GenreId = request.GenreId;
 
         await context.SaveChangesAsync(cancellationToken);
+
+        // Herlaad Disc en Genre na update (DiscId/GenreId kunnen gewijzigd zijn)
+        await context.Tracks.Entry(entity).Reference(t => t.Disc).LoadAsync(cancellationToken);
+        await context.Tracks.Entry(entity).Reference(t => t.Genre).LoadAsync(cancellationToken);
+
+        await elasticsearchTracksService.IndexTrackAsync(TrackDocument.Create(entity), cancellationToken);
     }
 }

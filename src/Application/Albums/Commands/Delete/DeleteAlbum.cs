@@ -1,10 +1,14 @@
-﻿using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Common.Interfaces;
+using SortedTunes.Application.Elasticsearch.Interfaces;
 
 namespace SortedTunes.Application.Albums.Commands.Delete;
 
 public record DeleteAlbumCommand(int Id) : IRequest;
 
-public class DeleteAlbumCommandHandler(IApplicationDbContext context) : IRequestHandler<DeleteAlbumCommand>
+public class DeleteAlbumCommandHandler(
+    IApplicationDbContext context,
+    IElasticsearchAlbumsService elasticsearchAlbumsService
+) : IRequestHandler<DeleteAlbumCommand>
 {
     public async Task Handle(DeleteAlbumCommand request, CancellationToken cancellationToken)
     {
@@ -17,5 +21,7 @@ public class DeleteAlbumCommandHandler(IApplicationDbContext context) : IRequest
         context.Albums.Remove(entity);
 
         await context.SaveChangesAsync(cancellationToken);
+
+        await elasticsearchAlbumsService.DeleteAlbumAsync(request.Id, cancellationToken);
     }
 }
